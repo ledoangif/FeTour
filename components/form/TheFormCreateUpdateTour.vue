@@ -1,5 +1,6 @@
 <template>
-    <CVModal id_model="create-update-Tour-modal" @close-modal="resetForm">
+    <Form ref="form" @submit="handleSubmit" :key="keyformtour">
+        <CVModal id_model="create-update-Tour-modal" @close-modal="resetForm">
             <template #icon>
                 <slot name="icon"></slot>
             </template>
@@ -12,7 +13,7 @@
                 </span>
             </template>
             <template #body>
-                <Form ref="form" @submit="handleSubmit" :key="keyformtour">
+                
                 <div class="row">
                     <div class="row col-lg-6 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
@@ -203,7 +204,7 @@
                 </div>
 
                 <div class="modal-footer align-content-center justify-content-center">
-                    <button v-if="isEditMode" type="submit" class="btn btn-sm btn-primary d-flex align-items-center"
+                    <button v-if="isEditMode" type="submit" class="btn btn-sm btn-primary d-flex align-items-center" 
                         >
                         Lưu
                     </button>
@@ -212,9 +213,9 @@
                         Thêm
                     </button>
                 </div>
-            </Form>
-        </template>
-    </CVModal>
+            </template>
+        </CVModal>
+    </Form>
 </template>
 
 <script setup>
@@ -226,7 +227,7 @@ const keyformtour = ref(0); // Giá trị dùng để ép re-render
 const toast = useToast();
 const api = new Api();
 const Country = ref([]);
-const form = ref("");
+const form = ref(null);
 const emits = defineEmits(['Tour-saved']);
 const accountId = ref('');
 /** received data */
@@ -242,6 +243,31 @@ const props = defineProps({
         required: true,
     },
 });
+/** reset form */
+const resetForm = () => {
+    Tour.value.nameTour= '',
+    Tour.value.descripttion= '',
+    Tour.value.seat= '',
+    Tour.value.cost= '',
+    Tour.value.discount= '',
+    Tour.value.dateEnd= '',
+    Tour.value.dateStart= '',
+    Tour.value.placeEnd= '',
+    Tour.value.placeStart= '',
+    Tour.value.timeEnd= '',
+    Tour.value.timeStart= '',
+    Tour.value.place= '',
+    Tour.value.plan= '',
+    Tour.value.image= '',
+    Tour.value.serviceInclude= '',
+    Tour.value.serviceNotInclude= '',
+    Tour.value.countryId= '',
+    Tour.value.isLocal= '',
+    Tour.value.meetingPoint= '',
+    keyformtour.value +=1;
+    errorMessage.value = '';
+};
+const errorMessage = ref('');
 const Tour = ref({
     nameTour: '',
     descripttion: '',
@@ -263,38 +289,6 @@ const Tour = ref({
     isLocal: '',
     meetingPoint: '',
 });
-/** reset form */
-const resetForm = () => {
-    Tour.value={
-        nameTour: '',
-        descripttion: '',
-        seat: '',
-        cost: '',
-        discount: '',
-        dateEnd: '',
-        dateStart: '',
-        placeEnd: '',
-        placeStart: '',
-        timeEnd: '',
-        timeStart: '',
-        place: '',
-        plan: '',
-        image: '',
-        serviceInclude: '',
-        serviceNotInclude: '',
-        countryId: '',
-        isLocal: '',
-        meetingPoint: '',
-    };
-    keyformtour.value +=1;
-};
-// const handlefiles = async (event) => {
-//     const files = event.target.files;
-//     const formData = new FormData();
-//     formData.append('ImageFile', files[0]);
-//     var ImageResponse = await api.postAPI('/Tour/UploadFile', formData);
-//     Tour.value.image = ImageResponse.data;
-// };
 const handlefiles = async (event) => {
     const files = event.target.files;
     const file = files[0];
@@ -321,11 +315,9 @@ const handlefiles = async (event) => {
         event.target.value = '';
         return;
     }
-
     // Nếu file hợp lệ, gửi file lên server
     const formData = new FormData();
     formData.append('ImageFile', file);
-
     try {
         const response = await api.postAPI('/Tour/UploadFile', formData); // Đường dẫn upload ảnh của quốc gia
         if (response.data) {
@@ -337,15 +329,10 @@ const handlefiles = async (event) => {
         toast.error("Tải ảnh thất bại vui lòng tải lại")
     }
 };
-
-
 const isLocal = [
     { id: 1, value: true },
     { id: 2, value: false },
 ];
-/**
- * define Tour
- */
 if (process.client) {
     accountId.value = localStorage.getItem('userId');
 }
@@ -358,61 +345,97 @@ const fetchData = async () => {
     }
 };
 onMounted(async () => {
-
     await fetchData();
-
 })
-/** validate */
-/**
- * insert Tour
- */
-// Định nghĩa Vue Directive
+
 const createTour = () => {
-    const formData2 = new FormData();
-    formData2.append('nameTour', Tour.value.nameTour);
-    formData2.append('descripttion', Tour.value.descripttion);
-    formData2.append('seat', Tour.value.seat);
-    const cleanCost = parseFloat(Tour.value.cost.replace(/[\D\s\._\-]+/g, ''));
-    formData2.append('cost', isNaN(cleanCost) ? 0 : cleanCost);
-    formData2.append('discount', Tour.value.discount);
-    formData2.append('islocal', Tour.value.isLocal);
-    formData2.append('dateEnd', Tour.value.dateEnd);
-    formData2.append('dateStart', Tour.value.dateStart);
-    formData2.append('plan', Tour.value.plan);
-    formData2.append('image', Tour.value.image);
-    formData2.append('serviceInclude', Tour.value.serviceInclude);
-    formData2.append('serviceNotInclude', Tour.value.serviceNotInclude);
-    formData2.append('countryId', Tour.value.countryId);
-    formData2.append('timeStart', Tour.value.timeStart);
-    formData2.append('timeEnd', Tour.value.timeEnd);
-    formData2.append('placeStart', Tour.value.placeStart);
-    formData2.append('placeEnd', Tour.value.placeEnd);
-    formData2.append('place', Tour.value.place);
-    formData2.append('meetingPoint', Tour.value.meetingPoint);
-    formData2.append('appUserId', accountId.value);
-    api.postAPI('/Tour/InsertTour', formData2)
-        .then((res) => {
-            emits('Tour-saved');
-            $('#create-update-Tour-modal').modal('hide');
-        })
-        .catch((error) => {
-            console.error('Error creating Tour:', error);
-        });
+    try{
+        const formData2 = new FormData();
+        formData2.append('nameTour', Tour.value.nameTour);
+        formData2.append('descripttion', Tour.value.descripttion);
+        formData2.append('seat', Tour.value.seat);
+        const cleanCost = parseFloat(Tour.value.cost.replace(/[\D\s\._\-]+/g, ''));
+        formData2.append('cost', isNaN(cleanCost) ? 0 : cleanCost);
+        formData2.append('discount', Tour.value.discount);
+        formData2.append('islocal', Tour.value.isLocal);
+        formData2.append('dateEnd', Tour.value.dateEnd);
+        formData2.append('dateStart', Tour.value.dateStart);
+        formData2.append('plan', Tour.value.plan);
+        formData2.append('image', Tour.value.image);
+        formData2.append('serviceInclude', Tour.value.serviceInclude);
+        formData2.append('serviceNotInclude', Tour.value.serviceNotInclude);
+        formData2.append('countryId', Tour.value.countryId);
+        formData2.append('timeStart', Tour.value.timeStart);
+        formData2.append('timeEnd', Tour.value.timeEnd);
+        formData2.append('placeStart', Tour.value.placeStart);
+        formData2.append('placeEnd', Tour.value.placeEnd);
+        formData2.append('place', Tour.value.place);
+        formData2.append('meetingPoint', Tour.value.meetingPoint);
+        formData2.append('appUserId', accountId.value);
+        api.postAPI('/Tour/InsertTour', formData2)
+        emits('Tour-saved');
+        
+        toast.success('Thêm thành công!');
+    }catch (error) {
+        console.error('Error creating Tour:', error);
+    }
     resetForm();
 };
 
-/** update Tour */
-const updateTour = async () => {
-    // Ensure cost is treated as a string
+// /** update Tour */
+// const updateTour =  () => {
+//     // Ensure cost is treated as a string
+//     const costStr = Tour.value.cost ? String(Tour.value.cost) : '';
+//     const cleanCost = parseFloat(costStr.replace(/[^0-9.-]+/g, ''));
+//     const data1 = {
+//         nameTour: Tour.value.nameTour || '',
+//         descripttion: Tour.value.descripttion || '',
+//         seat: Tour.value.seat || '',
+//         email: Tour.value.email || '',
+//         cost: isNaN(cleanCost) ? 0 : cleanCost,
+//         isLocal: JSON.parse(Tour.value.isLocal) || false,
+//         dateEnd: Tour.value.dateEnd || '',
+//         discount: Tour.value.discount || 0,
+//         dateStart: Tour.value.dateStart || '',
+//         plan: Tour.value.plan || '',
+//         image: Tour.value.image || '',
+//         serviceInclude: Tour.value.serviceInclude || '',
+//         serviceNotInclude: Tour.value.serviceNotInclude || '',
+//         countryId: Tour.value.countryId || '',
+//         timeEnd: Tour.value.timeEnd || '',
+//         timeStart: Tour.value.timeStart || '',
+//         placeEnd: Tour.value.placeEnd || '',
+//         placeStart: Tour.value.placeStart || '',
+//         place: Tour.value.place || '',
+//         meetingPoint: Tour.value.meetingPoint || '',
+//         appUserId: props.editTour.appUserId,
+//         id: props.editTour.id,
+//     };
+//     api.putAPI(`/Tour/${props.editTour.id}`, data1)
+//             .then((res) => {
+//                 emits('Tour-saved');
+//                 toast.success('Cập nhật thành công')
+//             })
+//             .catch((error) => {
+//                 console.error('Error updating Tour:', error);
+//             });
+//     };
+const updateTour = () => {
+    if (!props.editTour.id) {
+        toast.error("ID tour không hợp lệ");
+        return; // Dừng hàm nếu ID không có giá trị hợp lệ
+    }
+
     const costStr = Tour.value.cost ? String(Tour.value.cost) : '';
     const cleanCost = parseFloat(costStr.replace(/[^0-9.-]+/g, ''));
-    const data = {
+    
+    const data1 = {
         nameTour: Tour.value.nameTour || '',
         descripttion: Tour.value.descripttion || '',
         seat: Tour.value.seat || '',
         email: Tour.value.email || '',
         cost: isNaN(cleanCost) ? 0 : cleanCost,
-        isLocal: JSON.parse(Tour.value.isLocal) || false,
+        isLocal: Tour.value.isLocal === 'true' || false,  // Check boolean value
         dateEnd: Tour.value.dateEnd || '',
         discount: Tour.value.discount || 0,
         dateStart: Tour.value.dateStart || '',
@@ -427,36 +450,30 @@ const updateTour = async () => {
         placeStart: Tour.value.placeStart || '',
         place: Tour.value.place || '',
         meetingPoint: Tour.value.meetingPoint || '',
-        appUserId: props.editTour.appUserId,
-        id: props.editTour.id,
+        appUserId: props.editTour.appUserId || '',  // Make sure this is valid
+        id: props.editTour.id,  // Ensure id is present here
     };
+    
+    console.log(data1);  // Debugging: Check if `id` is properly passed
 
-    await api
-        .putAPI(`/Tour/${props.editTour.id}`, data)
+    api.putAPI(`/Tour/${props.editTour.id}`, data1)
         .then((res) => {
             emits('Tour-saved');
-            $('#create-update-Tour-modal').modal('hide');
+            toast.success('Cập nhật thành công');
         })
         .catch((error) => {
             console.error('Error updating Tour:', error);
         });
-    resetForm();
 };
 
-/**
- * handle submit
- */
-const handleSubmit = () => {
+const handleSubmit =  () => {
     if (props.isEditMode) {
-        updateTour();
+         updateTour();
     } else {
-        createTour();
+         createTour();
     }
 };
 
-/**
- * update data of edit Tour
- */
 watch(
     () => props.editTour,
     (newVal) => {
@@ -485,7 +502,6 @@ watch(() => Tour.value.isLocal, (newValue) => {
         Tour.value.countryId = null;
     }
 });
-
 // Lọc quốc gia dựa trên giá trị của isLocal
 const filteredCountries = computed(() => {
     if (Tour.value.isLocal) {
@@ -517,10 +533,6 @@ const computedValue = computed({
     },
 });
 
-/**
- * Reset input value after computed execute if it's not number
- * @param {*} event
- */
 const handleInput = (event) => {
     const inputValue = event.target.value;
     const cleanedValue = inputValue.replace(/[^\d.]/g, ''); // Chỉ giữ lại các ký tự số và dấu chấm

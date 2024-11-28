@@ -87,6 +87,7 @@ const orderId = ref('')
 const paymentMethod = ref('')
 const paymentId = ref('')
 const vnPayResponseCode = ref('')
+const tourName = ref('') // Thêm biến này để chứa tên tour
 
 onMounted(async () => {
   const params = route.query
@@ -106,14 +107,48 @@ onMounted(async () => {
   }
 })
 
+// const updateBookingStatus = async (bookingId) => {
+//   try {
+//     const response = await api.putAPI(`/Booking/UpdateStatusToUnpaid?bookingId=${bookingId}`);
+//     console.log('Cập nhật trạng thái thành công:', response.data);
+//   } catch (error) {
+//     console.error('Lỗi cập nhật trạng thái booking:', error);
+//   }
+// }
 const updateBookingStatus = async (bookingId) => {
   try {
+    // Gửi yêu cầu PUT để cập nhật trạng thái của booking
     const response = await api.putAPI(`/Booking/UpdateStatusToUnpaid?bookingId=${bookingId}`);
-    console.log('Cập nhật trạng thái thành công:', response.data);
+    
+    if (response.status === 200) {
+      console.log('Cập nhật trạng thái thành công:', response.data);
+
+      // Lấy thông tin email và statusBill từ response.data
+      const { email, statusBill } = response.data;
+      // Sau khi cập nhật trạng thái thành công, gọi API để gửi email
+      const formData = new FormData();
+      formData.append('to', email); // Email khách hàng
+      formData.append('status', statusBill); // Trạng thái hiện tại của booking
+
+      // Gửi yêu cầu POST để gửi email
+      const mailResponse = await api.postAPI(`/Booking/TestSendMailByStatus?id=${bookingId}`, formData);
+      
+      if (mailResponse.status === 200) {
+        console.log('Email gửi thành công:', mailResponse.data);
+        toast.success('Email thông báo trạng thái đã được gửi!');
+      } else {
+        toast.error('Có lỗi xảy ra khi gửi email.');
+      }
+    } else {
+      toast.error('Không thể cập nhật trạng thái booking.');
+    }
   } catch (error) {
     console.error('Lỗi cập nhật trạng thái booking:', error);
+    toast.error('Có lỗi xảy ra khi cập nhật trạng thái booking.');
   }
-}
+};
+
+
 </script>
 <style scoped>
 @import '../../assets/css/bootstrap.css';

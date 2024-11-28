@@ -489,7 +489,6 @@ const updateBooking = async () => {
         const formData = new FormData();
         formData.append('to', Booking.value.email);
         formData.append('status', data.statusBill);
-
         const mail=await api.postAPI(`/Booking/TestSendMailByStatus?id=${props.editBooking.id}`,formData,);
         if (mail.status === 200) {
             if (mail.data && mail.data.message) {

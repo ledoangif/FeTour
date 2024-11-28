@@ -214,8 +214,13 @@
                     <div class="d-flex align-items-center">
                         <span class="me-5">Tổng số: {{ totalCount }} Tài khoản</span>
                         <span>
-                            <Pagination :current-page="pageNumber" :total-pages="pageTotal" :next-page="nextPage"
-                                        :previous-page="previousPage" :set-page="setPage" />
+                            <Pagination
+                                :current-page="pageNumber"
+                                :total-pages="totalPage"
+                                :next-page="nextPage"
+                                :previous-page="previousPage"
+                                :set-page="setPage"
+                            />
                         </span>
                     </div>
                     <div></div>
@@ -231,7 +236,7 @@ import Search from '~/components/Search.vue';
 import DeleteAccountModal from '~/components/form/DeleteAccountModal.vue';
 import TheFormCreateUpdateAccount from '~/components/form/TheFormCreateUpdateAccount.vue';
 import Api from '~/service/Base/api.ts';
-
+const totalCount = ref(0);
 
 
 const api = new Api();
@@ -335,20 +340,6 @@ export default defineComponent({
             this.searchString = '';
             this.getAccounts();
         },
-//         handleAccountSaved() {
-//     // Cập nhật danh sách tài khoản trước khi đóng modal
-//     this.getAccounts();
-
-//     // Đảm bảo modal được đóng sau khi dữ liệu đã được cập nhật
-//     this.$nextTick(() => {
-//         // Tự động đóng modal bằng data-bs-dismiss
-//         const closeButton = document.querySelector('[data-bs-dismiss="modal"]');
-//         if (closeButton) {
-//             closeButton.click();
-//         }
-//     });
-// }
-
     },
 
     components: { Search, DeleteAccountModal, TheFormCreateUpdateAccount },

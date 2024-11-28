@@ -385,8 +385,6 @@
                     <div class="destinations-info">
                         <div class="caption mb-lg-3">
                             <a
-                                asp-controller="Access"
-                                asp-action="Login"
                                 @click="handleCountrySelect(item.id)"
                                 href ="#tourByCountry"
                                 >Book Now</a
@@ -430,10 +428,6 @@ onMounted(async () => {
 
 });
 
-/**
- * get tour by country
- * @param {Number} id 
- */
 const handleCountrySelect = async (id) => {
     const res = await api.get(`Tour/GetToursByCountry?countryId=${id}`);
     top6Tour.value = res.data.responseData;

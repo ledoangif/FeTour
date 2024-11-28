@@ -92,7 +92,7 @@
                         v-if="isEditMode"
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
+                        
                     >
                         Lưu
                     </button>
@@ -100,7 +100,7 @@
                         v-else
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
+                        
                     >
                         Thêm
                     </button>
@@ -221,28 +221,29 @@ const createCountry = async () => {
     resetForm();
 };
 
-const updateCountry = async () => {
+const updateCountry =  () => {
     const data = {
         countryName: Country.value.countryName,
         countryImage: Country.value.countryImage,
         continentName: Country.value.continentName,
         id: props.editCountry.id,
     };
-    try {
-        await api.putAPI(`/Country/${props.editCountry.id}`, data);
+     api.putAPI(`/Country/${props.editCountry.id}`, data)
+     .then((res)=>{
         emits('Country-saved');
-        $('#create-update-Country-modal').modal('hide');
+        //$('#create-update-Country-modal').modal('hide');
         toast.success('Cập nhật thành công!');
-    } catch (error) {
+     })
+        
+    .catch ((error)=> {
         console.error('Error updating Country:', error);
         errorMessage.value = "Đã xảy ra lỗi khi cập nhật quốc gia. Vui lòng thử lại.";
-    }
-    resetForm();
+    });
 };
 const handleSubmit = async () => {
     if (props.isEditMode) {
         // Chế độ cập nhật
-        await updateCountry();
+         updateCountry();
     } else {
         // Chế độ tạo mới
         await createCountry();

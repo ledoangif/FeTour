@@ -243,12 +243,6 @@ const getCountrys = async () => {
     }
 };
 
-
-
-/**
- * delete Country
- * @param {*} id
- */
 const deleteCountry = async (id) => {
     try {
         selectedCountryId.value = id;
@@ -257,10 +251,6 @@ const deleteCountry = async (id) => {
     }
 };
 
-/**
- * edit Country
- * @param {*} Country
- */
 const CountryEdit = async (Country) => {
     try {
         editCountryData.value = {
@@ -275,9 +265,6 @@ const CountryEdit = async (Country) => {
     }
 };
 
-/**
- * send value to modal in create mode
- */
 const onCreateMode = async () => {
     try {
         isEditMode.value = false;
@@ -286,9 +273,7 @@ const onCreateMode = async () => {
     }
 };
 
-/**
- * reset form search
- */
+
 const resetSearchForm = async () => {
     try {
         searchString.value = '';
@@ -309,7 +294,6 @@ const search = async () => {
             return;
         } else {
             const res = await api.get(`/Country/SearchCountryNameAdmin/${searchString.value}`, null);
-            //if(res.data.responseDa thế để đấy
             Countrys.value = res.data.responseData;
         }
     } catch (err) {
@@ -317,9 +301,7 @@ const search = async () => {
     }
 };
 
-/**
- * call
- */
+
 onMounted(async () => {
     await getCountrys();
 });

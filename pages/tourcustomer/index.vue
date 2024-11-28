@@ -4,14 +4,11 @@
         <div class="banner_inner_overlay"></div>
     </section>
     <section class="packages pb-5">
-        <div class="container py-lg-4 py-sm-3">
-            <form
-                class="rounded-4 bg-white searchTour"
-                name="search"
-                @submit.prevent="submitSearch"
+        <div class="container py-lg-4 py-sm-4">
+            <form class="rounded-4 bg-white searchTour" name="search" @submit.prevent="submitSearch"
             >
                 <div class="border-bottom border-warning pb-3">
-                    <div class="d-flex flex-row col-12 mt-3">
+                    <div class="d-flex  flex-md-row col-12 mt-3">
                         <button
                             type="button"
                             :class="{
@@ -34,7 +31,7 @@
                             Du lịch nước ngoài
                         </button>
 
-                        <div class="col-sm-6 ps-2">
+                        <div class="col-8 col-md-6 ps-md-2 mt-2 mt-md-0">
                             <Field
                                 name="name"
                                 v-model="nameTour"
@@ -43,21 +40,17 @@
                                 placeholder="Nhập từ khóa tour"
                             />
                         </div>
-                        <button
+                        <!-- <button
                             type="button"
-                            class="bg-warning  rounded-2 form-control  "
+                            class="bg-warning rounded-2 form-control mt-2 mt-md-0 ms-md-2"
                             style="width: 200px; height: 50px; padding: 0; font-size: 20px;"
-                            @click="reloadTourList"
-                        >
+                            @click="reloadTourList" >
                             <i class="fa-solid fa-arrows-rotate"></i>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
-                <div class="d-flex flex-row">
-                    <div
-                        class="col-3 ms-3 my-4 rounded-3"
-                        style="border: 3px solid #ffc107"
-                    >
+                <div class="d-flex flex-column flex-md-row">
+                    <div class="col-12 col-md-3 ms-0 ms-md-3 my-4 rounded-3 w-100" style="border: 3px solid #ffc107">
                         <div class="ms-5">Điểm đi</div>
                         <div class="d-flex flex-row">
                             <i class="fa-solid fa-location-dot col-2 mt-2"></i>
@@ -73,16 +66,9 @@
                         </div>
                     </div>
                     <div class=" my-auto mx-2">
-                        <i
-                            class="fa-solid fa-arrow-right-arrow-left  "
-                            style="font-size: 1.5em"
-                        ></i>
+                        <i class="fa-solid fa-arrow-right-arrow-left  "style="font-size: 1.5em"></i>
                     </div>
-                    <div
-                        class="col-3 my-4 rounded-3"
-                        style="border: 3px solid #ffc107"
-                        v-if="isLocal"
-                    >
+                    <div class="col-12 col-md-3 ms-0 ms-md-3 my-4 rounded-3 w-100" style="border: 3px solid #ffc107" v-if="isLocal">
                         <div class="ms-5">Điểm đến</div>
                         <div class="d-flex flex-row">
                             <i class="fa-solid fa-location-dot col-2 mt-2"></i>
@@ -96,11 +82,7 @@
                             </select>
                         </div>
                     </div>
-                    <div
-                        class="col-3 my-4 rounded-3"
-                        style="border: 3px solid #ffc107"
-                        v-else
-                    >
+                    <div class="col-12 col-md-3 ms-0 ms-md-3 my-4 rounded-3 w-100" style="border: 3px solid #ffc107" v-else >
                         <div class="ms-5">Điểm đến</div>
                         <div class="d-flex flex-row">
                             <i class="fa-solid fa-location-dot col-2 mt-2"></i>
@@ -115,7 +97,7 @@
                         </div>
                     </div>
                     <div
-                        class="col-3 my-4 rounded-3 ms-3"
+                        class="col-12 col-md-3 ms-0 ms-md-3 my-4 rounded-3 w-100"
                         style="border: 3px solid #ffc107"
                     >
                         <div class="ms-5">Ngày đi</div>
@@ -129,7 +111,7 @@
                         </div>
                     </div>
                     <button
-                        class="col-2 my-4 rounded-3 ms-3 bg-warning"
+                        class="col-1.5 my-4 rounded-3 ms-3 bg-warning"
                         style="border: 3px solid #ffc107"
                         type="submit"
                     >
@@ -380,8 +362,6 @@ const submitSearch = async () => {
     }
 
     const queryString = queryParams.join('&');
-    
-    // If no search criteria is provided, reload the full tour list
     if (!queryString) {
         reloadTourList();
     } else {
@@ -399,9 +379,6 @@ const submitSearch = async () => {
     }
 };
 
-/**
- * Reload search
- */
 const reloadTourList = async () => {
     const getTour = await api.get(`/Tour/GetTourNotFinish`, null);
     Tour.value = getTour.data.responseData;
@@ -411,11 +388,6 @@ const reloadTourList = async () => {
     nameTour.value = '';
 };
 
-
-/**
- * Get Tour by Country
- * @param {} id
- */
 const handleCountrySelect = async (id) => {
     const res = await api.get(`Tour/GetToursByCountry?countryId=${id}`);
     if(res.data.responseData.length === 0)
@@ -426,9 +398,6 @@ const handleCountrySelect = async (id) => {
     Tour.value = res.data.responseData;
 };
 
-/**
- * Tour is Local
- */
 const TourIsLocal = async () => {
     const res = await api.get(`Tour/GetTourIsLocal`, null);
     if(res.data.responseData.length === 0)
@@ -439,11 +408,6 @@ const TourIsLocal = async () => {
     Tour.value = res.data.responseData;
     isLocal2.value = true;
 };
-
-/**
- * Tour is not Local
- */
-
 const TourIsNotLocal = async () => {
     const res = await api.get(`Tour/GetTourNotIsLocal`, null);
     if(res.data.responseData.length === 0)
@@ -455,25 +419,7 @@ const TourIsNotLocal = async () => {
     isLocal2.value = false;
 };
 
-/**
- * Tour has different date
- */
 
-// const GetTourDifferent = async (name, date) => {
-//     try {
-//         const res = await api.get(`Tour/GetTourDifferent?name=${name}&date=${date}`, null);
-//         if (res.data.responseData.length === 0) {
-//             alert("Tour này không còn ngày khác!");
-//         }
-//         else
-//         {
-//             Tour.value = res.data.responseData;
-
-//         }
-//     } catch (error) {
-//         console.error("Error fetching tours:", error);
-//     }
-// };
 const nextPage = () => {
     pageNumber.value++;
     getTours();
@@ -532,4 +478,95 @@ definePageMeta({
 @import '../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css';
 @import '../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css';
 @import '../../assets/vendor/select2/select2.min.css';
+@media (max-width: 768px) {
+    .searchTour {
+        height: 670px;
+        padding: 5px; /* Tăng khoảng cách bên trong form */
+    }
+
+    /* Dòng đầu: Các nút "Du lịch trong nước" và "Du lịch nước ngoài" */
+    .searchTour .d-flex {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Các nút "Du lịch trong nước" và "Du lịch nước ngoài" chiếm 100% chiều rộng */
+    .searchTour button {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px; /* Giảm padding */
+        font-size: 14px;
+    }
+
+    /* Các ô nhập liệu (input, select) chiếm toàn bộ chiều rộng */
+    .searchTour .form-control, .searchTour .form-select {
+        width: 100%;
+        padding: 10px;
+        height: 40px;  /* Đảm bảo tất cả các ô nhập liệu có chiều cao giống nhau */
+        font-size: 14px;  /* Đảm bảo font size đồng đều */
+    }
+
+    /* Các ô chọn Điểm đi, Điểm đến, Ngày đi */
+    .searchTour .d-flex.flex-column {
+        flex-direction: column;
+    }
+
+    .searchTour .col-12 {
+        margin-bottom: 15px;
+    }
+
+    /* Dòng chọn điểm đi/điểm đến ngắn gọn hơn trên mobile */
+    .searchTour .col-md-3 {
+        margin-bottom: 15px;
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .searchTour .col-md-3 i {
+        font-size: 1.3em;
+    }
+
+
+
+    /* Các icon điều chỉnh sắp xếp giá trị trở nên nhỏ hơn */
+    .searchTour .fa-arrow-down-wide-short, .searchTour .fa-arrow-up-wide-short {
+        font-size: 1.2em;
+    }
+
+    /* Các nút phân loại tour giữ nguyên nhưng cũng chiếm full chiều rộng */
+    .searchTour button.bg-light {
+        margin-bottom: 10px;
+    }
+
+    /* Điều chỉnh footer thêm margin ở dưới */
+    .searchTour .footer {
+        margin-top: 20px;
+    }
+    .searchTour .fa-arrow-right-arrow-left {
+        display: none;
+    }
+    .searchTour .col-1\.5 {
+        width: 90%; /* Đặt chiều rộng nhỏ hơn */
+        height: 70px;
+        margin-bottom: 10px; /* Giảm khoảng cách dưới */
+    }
+
+    /* Điều chỉnh các lớp margin và padding */
+    .searchTour .col-1\.5.my-4 {
+        margin-top: 8px; /* Giảm khoảng cách phía trên */
+        margin-left: 0; /* Loại bỏ margin-left để tiết kiệm không gian */
+    }
+
+    /* Đảm bảo nút tìm kiếm trong phần này cũng có chiều cao nhỏ hơn */
+    .searchTour .col-1\.5.bg-warning {
+        padding: 8px; /* Giảm padding để tiết kiệm không gian */
+        font-size: 14px; /* Giảm cỡ chữ */
+    }
+
+    /* Điều chỉnh các góc bo tròn nếu cần */
+    .searchTour .col-1\.5.rounded-3 {
+        border-radius: 5px; /* Điều chỉnh bo tròn nhỏ hơn */
+    }
+
+}
 </style>

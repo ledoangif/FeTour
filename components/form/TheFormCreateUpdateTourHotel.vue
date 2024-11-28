@@ -100,7 +100,7 @@
                         v-if="isEditMode"
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
+                        
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@
                         v-else
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
+                        
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +239,7 @@ const updateTourHotel = () => {
     api.putAPI(`/TourHotel/${props.editTourHotel.id}`, data)
         .then((res) => {
             emits('TourHotel-saved');
-            $('#create-update-TourHotel-modal').modal('hide');
+            //$('#create-update-TourHotel-modal').modal('hide');
         })
         .catch((error) => {
             console.error('Error updating TourHotel:', error);

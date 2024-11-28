@@ -145,7 +145,7 @@
                         v-if="isEditMode"
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
+                        
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +164,7 @@
                         v-else
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
+                        
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +246,7 @@ const createHotel = () => {
                 }
             }
             emits('Hotel-saved');
-            $('#create-update-Hotel-modal').modal('hide');
+           // $('#create-update-Hotel-modal').modal('hide');
         })
         .catch((error) => {
             console.error('Error creating Hotel:', error);
@@ -266,7 +266,8 @@ const updateHotel = () => {
     api.putAPI(`/Hotel/${props.editHotel.id}`, data)
         .then((res) => {
             emits('Hotel-saved');
-            $('#create-update-Hotel-modal').modal('hide');
+            toast.success('Cập nhật thành công')
+            //$('#create-update-Hotel-modal').modal('hide');
         })
         .catch((error) => {
             console.error('Error updating Hotel:', error);
@@ -274,11 +275,16 @@ const updateHotel = () => {
 };
 
 const handleSubmit = () => {
-    if (props.isEditMode) {
-        updateHotel();
+    try{
+        if (props.isEditMode) {
+         updateHotel();
     } else {
-        createHotel();
+         createHotel();
     }
+    //$('#create-update-Hotel-modal').modal('hide'); // Chỉ đóng modal khi không có lỗi
+  } catch (error) {
+    console.error('Submit failed:', error);
+  }
 };
 
 watch(
