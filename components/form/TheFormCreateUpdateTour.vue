@@ -1,5 +1,5 @@
 <template>
-    <Form ref="form" @submit="handleSubmit" :key="keyformtour">
+    
         <CVModal id_model="create-update-Tour-modal" @close-modal="resetForm">
             <template #icon>
                 <slot name="icon"></slot>
@@ -13,8 +13,8 @@
                 </span>
             </template>
             <template #body>
-                
-                <div class="row">
+                <Form ref="form" @submit="handleSubmit" :key="keyformtour">
+                    <div class="row">
                     <div class="row col-lg-6 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
                             <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
@@ -196,10 +196,13 @@
                                 gồm
                             </label>
                             <div class="col-sm-9">
-                                <Field as="textarea" name="serviceInclude" v-model="Tour.serviceInclude" type="text"
+                                <!-- <Field as="textarea" name="serviceInclude" v-model="Tour.serviceInclude" type="text"
                                     class="form-control" style="height: 150px" :rules="{ required: true }" />
-                                <ErrorMessage name="serviceInclude" class="text-danger" />
-                                <!-- <TipTap v-model="Tour.serviceInclude"></TipTap> -->
+                                <ErrorMessage name="serviceInclude" class="text-danger" /> -->
+                                <TipTap v-model="Tour.serviceInclude"></TipTap>
+                                <p v-if="errorMessage1.serviceInclude" class="text-danger">
+                                    {{ errorMessage1.serviceInclude }}
+                                </p>
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
@@ -207,20 +210,26 @@
                                 không bao gồm
                             </label>
                             <div class="col-sm-9">
-                                <Field as="textarea" name="serviceNotInclude" v-model="Tour.serviceNotInclude" type="text"
+                                <!-- <Field as="textarea" name="serviceNotInclude" v-model="Tour.serviceNotInclude" type="text"
                                     class="form-control" style="height: 150px" :rules="{ required: true }" />
-                                <ErrorMessage name="serviceNotInclude" class="text-danger" />
-                                <!-- <TipTap v-model="Tour.serviceNotInclude"></TipTap> -->
+                                <ErrorMessage name="serviceNotInclude" class="text-danger" /> -->
+                                <TipTap v-model="Tour.serviceNotInclude"></TipTap>
+                                <p v-if="errorMessage1.serviceNotInclude" class="text-danger">
+                                    {{ errorMessage1.serviceNotInclude }}
+                                </p>
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
                             <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Lịch Trình
                             </label>
                             <div class="col-sm-9">
-                                <Field as="textarea" name="plan" v-model="Tour.plan" type="text"
+                                <!-- <Field as="textarea" name="plan" v-model="Tour.plan" type="text"
                                     class="form-control" style="height: 150px" :rules="{ required: true }" />
-                                <ErrorMessage name="plan" class="text-danger" />
-                                <!-- <TipTap v-model="Tour.plan"></TipTap> -->
+                                <ErrorMessage name="plan" class="text-danger" /> -->
+                                <TipTap v-model="Tour.plan"></TipTap>
+                                <p v-if="errorMessage1.plan" class="text-danger">
+                                    {{ errorMessage1.plan }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -243,9 +252,9 @@
                         hidden>
                     </button>
                 </div>
+                </Form>
             </template>
         </CVModal>
-    </Form>
 </template>
 
 <script setup>
@@ -297,6 +306,7 @@ const resetForm = () => {
     Tour.value.meetingPoint= '',
     keyformtour.value +=1;
     errorMessage.value = '';
+    errorMessage1.value = {};
 };
 const errorMessage = ref('');
 const Tour = ref({
@@ -495,13 +505,66 @@ const updateTour = () => {
         });
 };
 
-const handleSubmit =  () => {
-    if (props.isEditMode) {
-         updateTour();
-    } else {
-         createTour();
+const errorMessage1 = ref({});
+
+
+const validateTipTap = (content, fieldName) => {
+    const div = document.createElement('div');
+    div.innerHTML = content;
+    const text = div.textContent.trim();
+
+    if (!text) {
+        errorMessage1.value[fieldName] = 'Thông tin này không được để trống!';
+        return false;
+    }
+
+    // Xóa lỗi nếu nội dung hợp lệ
+    errorMessage1.value[fieldName] = '';
+    return true;
+};
+const handleSubmit = () => {
+    const isServiceIncludeValid = validateTipTap(Tour.value.serviceInclude, 'serviceInclude');
+    const isServiceNotIncludeValid = validateTipTap(Tour.value.serviceNotInclude, 'serviceNotInclude');
+    const isPlanValid = validateTipTap(Tour.value.plan, 'plan');
+
+    if (isServiceIncludeValid && isServiceNotIncludeValid && isPlanValid) {
+        if (props.isEditMode) {
+            updateTour();
+        } else {
+            createTour();
+        }
     }
 };
+
+// const handleSubmit = () => {
+//     const isValid = [
+//         validateTipTap(Tour.value.serviceInclude, 'Dịch vụ bao gồm'),
+//         validateTipTap(Tour.value.serviceNotInclude, 'Dịch vụ không bao gồm'),
+//         validateTipTap(Tour.value.plan, 'Lịch trình'),
+//     ].every(Boolean);
+
+//     if (!isValid) {
+//         toast.error('Vui lòng kiểm tra lại các trường bắt buộc.');
+//         return;
+//     }
+
+//     if (props.isEditMode) {
+//         updateTour();
+//     } else {
+//         createTour();
+//     }
+// };
+
+
+
+
+// const handleSubmit =  () => {
+//     if (props.isEditMode) {
+//          updateTour();
+//     } else {
+//          createTour();
+//     }
+// };
 
 watch(
     () => props.editTour,
@@ -582,10 +645,5 @@ const computedValue1 = computed({
     },
 });
 
-// const handleInput = (event) => {
-//     const inputValue = event.target.value;
-//     const cleanedValue = inputValue.replace(/[^\d.]/g, ''); // Chỉ giữ lại các ký tự số và dấu chấm
-//     event.target.value = cleanedValue;
-// };
 
 </script>
