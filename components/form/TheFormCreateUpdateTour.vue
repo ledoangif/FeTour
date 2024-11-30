@@ -39,11 +39,21 @@
                         </div>
                         <div class="row mb-3 form-group required">
                             <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
-                                Giá tiền
+                                Giá mua
+                            </label>
+                            <div class="col-sm-8">
+                                <Field id="priceBuy" name="priceBuy" v-model="computedValue1" class="form-control"
+                                    :rules="{ required: true,cost:true}" />
+                                <ErrorMessage name="priceBuy" class="text-danger" />
+                            </div>
+                        </div>
+                        <div class="row mb-3 form-group required">
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
+                                Giá bán gốc
                             </label>
                             <div class="col-sm-8">
                                 <Field id="cost" name="cost" v-model="computedValue" class="form-control"
-                                    :rules="{ required: true,cost: true }" @click="handleInput" />
+                                    :rules="{ required: true ,cost:true}" />
                                 <ErrorMessage name="cost" class="text-danger" />
                             </div>
                         </div>
@@ -65,8 +75,11 @@
                                 <Field as="select" id="isLocal" name="isLocal" v-model="Tour.isLocal"
                                     class="form-control">
                                     <option v-for="item in isLocal" class="text-dark" :value="item.value">
-                                        {{ item.value }}
+                                        {{ item.value ? 'Nội địa' : 'Nước ngoài' }}
                                     </option>
+                                    <!-- <option v-for="gender in Gender" :key="gender" :value="gender">
+                                        {{ gender ? 'Nam' : 'Nữ' }}
+                                    </option> -->
                                 </Field>
                             </div>
                         </div>
@@ -147,12 +160,12 @@
                             <div class="col-sm-8 d-flex flex-row">
                                 <span class="col-4">
                                     <Field name="timeEnd" v-model="Tour.timeEnd" type="time"
-                                        class="input-edit me-1 form-control" :rules="{ required: true,endDateGreaterThanStart:true }" />
+                                        class="input-edit me-1 form-control" :rules="{ required: true }" />
                                     <ErrorMessage name="timeEnd" class="text-danger" />
                                 </span>
                                 <span class="col-8 ms-2">
                                     <Field name="dateEnd" v-model="Tour.dateEnd" type="date" class="form-control"
-                                        :rules="{ required: true }" />
+                                        :rules="{ required: true ,endDateGreaterThanStart: [Tour.dateStart]}" />
                                     <ErrorMessage name="dateEnd" class="text-danger" />
                                 </span>
                             </div>
@@ -177,12 +190,16 @@
                                 <ErrorMessage name="descripttion" class="text-danger" />
                             </div>
                         </div>
+                        
                         <div class="row form-group required mb-3">
                             <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Dịch vụ bao
                                 gồm
                             </label>
                             <div class="col-sm-9">
-                                <TipTap v-model="Tour.serviceInclude"></TipTap>
+                                <Field as="textarea" name="serviceInclude" v-model="Tour.serviceInclude" type="text"
+                                    class="form-control" style="height: 150px" :rules="{ required: true }" />
+                                <ErrorMessage name="serviceInclude" class="text-danger" />
+                                <!-- <TipTap v-model="Tour.serviceInclude"></TipTap> -->
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
@@ -190,14 +207,20 @@
                                 không bao gồm
                             </label>
                             <div class="col-sm-9">
-                                <TipTap v-model="Tour.serviceNotInclude"></TipTap>
+                                <Field as="textarea" name="serviceNotInclude" v-model="Tour.serviceNotInclude" type="text"
+                                    class="form-control" style="height: 150px" :rules="{ required: true }" />
+                                <ErrorMessage name="serviceNotInclude" class="text-danger" />
+                                <!-- <TipTap v-model="Tour.serviceNotInclude"></TipTap> -->
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
                             <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Lịch Trình
                             </label>
                             <div class="col-sm-9">
-                                <TipTap v-model="Tour.plan"></TipTap>
+                                <Field as="textarea" name="plan" v-model="Tour.plan" type="text"
+                                    class="form-control" style="height: 150px" :rules="{ required: true }" />
+                                <ErrorMessage name="plan" class="text-danger" />
+                                <!-- <TipTap v-model="Tour.plan"></TipTap> -->
                             </div>
                         </div>
                     </div>
@@ -211,6 +234,13 @@
                     <button v-else type="submit" class="btn btn-sm btn-primary d-flex align-items-center"
                         >
                         Thêm
+                    </button>
+                    <button 
+                        id="closeModalButton" 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        hidden>
                     </button>
                 </div>
             </template>
@@ -249,6 +279,7 @@ const resetForm = () => {
     Tour.value.descripttion= '',
     Tour.value.seat= '',
     Tour.value.cost= '',
+    Tour.value.priceBuy='',
     Tour.value.discount= '',
     Tour.value.dateEnd= '',
     Tour.value.dateStart= '',
@@ -273,6 +304,7 @@ const Tour = ref({
     descripttion: '',
     seat: '',
     cost: '',
+    priceBuy: '',
     discount: '',
     dateEnd: '',
     dateStart: '',
@@ -292,13 +324,11 @@ const Tour = ref({
 const handlefiles = async (event) => {
     const files = event.target.files;
     const file = files[0];
-
     // Kiểm tra xem có file nào được chọn không
     if (!file) {
         alert("Vui lòng chọn một file.");
         return;
     }
-
     // Kiểm tra định dạng file (chỉ cho phép jpg hoặc png)
     const validExtensions = ['image/jpeg', 'image/png']; // Định dạng file hợp lệ
     if (!validExtensions.includes(file.type)) {
@@ -347,7 +377,6 @@ const fetchData = async () => {
 onMounted(async () => {
     await fetchData();
 })
-
 const createTour = () => {
     try{
         const formData2 = new FormData();
@@ -356,6 +385,8 @@ const createTour = () => {
         formData2.append('seat', Tour.value.seat);
         const cleanCost = parseFloat(Tour.value.cost.replace(/[\D\s\._\-]+/g, ''));
         formData2.append('cost', isNaN(cleanCost) ? 0 : cleanCost);
+        const cleanCost1 = parseFloat(Tour.value.priceBuy.replace(/[\D\s\._\-]+/g, ''));
+        formData2.append('priceBuy',isNaN(cleanCost1) ? 0 : cleanCost1);
         formData2.append('discount', Tour.value.discount);
         formData2.append('islocal', Tour.value.isLocal);
         formData2.append('dateEnd', Tour.value.dateEnd);
@@ -374,12 +405,11 @@ const createTour = () => {
         formData2.append('appUserId', accountId.value);
         api.postAPI('/Tour/InsertTour', formData2)
         emits('Tour-saved');
-        
         toast.success('Thêm thành công!');
+        document.getElementById('closeModalButton').click();
     }catch (error) {
         console.error('Error creating Tour:', error);
     }
-    resetForm();
 };
 
 // /** update Tour */
@@ -421,45 +451,44 @@ const createTour = () => {
 //             });
 //     };
 const updateTour = () => {
-    if (!props.editTour.id) {
-        toast.error("ID tour không hợp lệ");
-        return; // Dừng hàm nếu ID không có giá trị hợp lệ
-    }
-
-    const costStr = Tour.value.cost ? String(Tour.value.cost) : '';
-    const cleanCost = parseFloat(costStr.replace(/[^0-9.-]+/g, ''));
-    
-    const data1 = {
-        nameTour: Tour.value.nameTour || '',
+     const costStr = Tour.value.cost ? String(Tour.value.cost) : '';
+     const cleanCost = parseFloat(costStr.replace(/[^0-9.-]+/g, ''));
+     const costStr1 = Tour.value.cost ? String(Tour.value.priceBuy) : '';
+     const cleanCost1 = parseFloat(costStr1.replace(/[^0-9.-]+/g, ''));
+    const data = {
+        nameTour: Tour.value.nameTour || '', // Đảm bảo chuỗi không null
         descripttion: Tour.value.descripttion || '',
-        seat: Tour.value.seat || '',
-        email: Tour.value.email || '',
+        seat: Number(Tour.value.seat) || 0, // Đảm bảo số nguyên
         cost: isNaN(cleanCost) ? 0 : cleanCost,
-        isLocal: Tour.value.isLocal === 'true' || false,  // Check boolean value
-        dateEnd: Tour.value.dateEnd || '',
-        discount: Tour.value.discount || 0,
-        dateStart: Tour.value.dateStart || '',
+        priceBuy: isNaN(cleanCost1) ? 0 : cleanCost1,
+        // isLocal: !!Tour.value.isLocal, // Đảm bảo boolean
+        isLocal: JSON.parse(Tour.value.isLocal) || false,
+        dateEnd: Tour.value.dateEnd || null, // Hoặc định dạng chuẩn ISO nếu backend yêu cầu
+        discount: parseFloat(Tour.value.discount) || 0,
+        dateStart: Tour.value.dateStart || null,
         plan: Tour.value.plan || '',
         image: Tour.value.image || '',
         serviceInclude: Tour.value.serviceInclude || '',
         serviceNotInclude: Tour.value.serviceNotInclude || '',
-        countryId: Tour.value.countryId || '',
+        countryId: Number(Tour.value.countryId) || null,
         timeEnd: Tour.value.timeEnd || '',
         timeStart: Tour.value.timeStart || '',
         placeEnd: Tour.value.placeEnd || '',
         placeStart: Tour.value.placeStart || '',
         place: Tour.value.place || '',
         meetingPoint: Tour.value.meetingPoint || '',
-        appUserId: props.editTour.appUserId || '',  // Make sure this is valid
-        id: props.editTour.id,  // Ensure id is present here
+        appUserId: props.editTour.appUserId || null,
+        id: props.editTour.id || null,
     };
     
-    console.log(data1);  // Debugging: Check if `id` is properly passed
+    console.log(data);  // Debugging: Check if `id` is properly passed
 
-    api.putAPI(`/Tour/${props.editTour.id}`, data1)
+    api.putAPI(`/Tour/${props.editTour.id}`, data)
         .then((res) => {
             emits('Tour-saved');
+            console.log(res.data); // Kiểm tra dữ liệu trả về
             toast.success('Cập nhật thành công');
+            document.getElementById('closeModalButton').click();
         })
         .catch((error) => {
             console.error('Error updating Tour:', error);
@@ -499,7 +528,7 @@ watch(() => Tour.value.isLocal, (newValue) => {
         }
     } else {
         // Khi là tour ngoài nước, không cho phép chọn Việt Nam và gán countryId về null
-        Tour.value.countryId = null;
+        //Tour.value.countryId = null;
     }
 });
 // Lọc quốc gia dựa trên giá trị của isLocal
@@ -532,11 +561,31 @@ const computedValue = computed({
         }
     },
 });
+const computedValue1 = computed({
+    get: () => {
+        var input = String(Tour.value.priceBuy || '').replace(/[\D\s\._\-]+/g, '');
+        input = input ? parseFloat(input, 10) : 0;
+        return input.toLocaleString('en-US');
+    },
+    set: (newValue) => {
+        newValue = String(newValue).replace(/[^\d.-]+/g, '');
+        newValue = newValue ? parseFloat(newValue, 10) : 0;
+        let isNumber = !isNaN(parseFloat(newValue)) && isFinite(newValue);
 
-const handleInput = (event) => {
-    const inputValue = event.target.value;
-    const cleanedValue = inputValue.replace(/[^\d.]/g, ''); // Chỉ giữ lại các ký tự số và dấu chấm
-    event.target.value = cleanedValue;
-};
+        if (newValue == '') {
+            Tour.value.priceBuy = '';
+        }
+
+        if (isNumber && parseFloat(newValue) > 0) {
+            Tour.value.priceBuy = newValue.toLocaleString('en-US');
+        }
+    },
+});
+
+// const handleInput = (event) => {
+//     const inputValue = event.target.value;
+//     const cleanedValue = inputValue.replace(/[^\d.]/g, ''); // Chỉ giữ lại các ký tự số và dấu chấm
+//     event.target.value = cleanedValue;
+// };
 
 </script>

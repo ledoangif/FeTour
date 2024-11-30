@@ -29,7 +29,7 @@
                             v-model="account.email"
                             name="email"
                             class="form-control"
-                            :rules="{email: true }"
+                            :rules="{required: true,email: true }"
                             @input="clearEmailError"
                         />
                         <ErrorMessage name="email" class="text-danger" />
@@ -118,6 +118,13 @@
                         <i class="fa-solid fa-floppy-disk mx-1"></i>
                         Lưu
                     </button>
+                    <button 
+                        id="closeModalButton" 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        hidden>
+                    </button>
                 </div>
             </Form>
         </template>
@@ -195,6 +202,7 @@ export default {
                 if (response.data && response.data.responseData && Object.keys(response.data.responseData).length > 0) {
                     // Nếu email đã tồn tại
                     this.emailError = "Email này đã tồn tại.";
+                    return;
                 } else {
                     // Reset lỗi nếu không có lỗi
                     this.emailError = "";
@@ -208,6 +216,7 @@ export default {
                     }
                 }
                 this.$emit('account-saved'); // Phát sự kiện lưu thành công
+                document.getElementById('closeModalButton').click();
             } catch (err) {
                 console.error(err);
             }
@@ -221,7 +230,8 @@ export default {
                 const response = await api.get(`/Account/email`, {
                     params: { email: this.account.email }
                 });
-                if (response.data && response.data.responseData && Object.keys(response.data.responseData).length > 0) {
+                if (response.data && response.data.responseData && Object.keys(response.data.responseData).length > 0 && 
+                this.account.email !== this.editAccount.email) {
                     // Nếu email đã tồn tại
                     this.emailError = "Email này đã tồn tại.";
                 } else {
@@ -236,7 +246,7 @@ export default {
                     }
                 }
                 this.$emit('account-saved');
-                
+                document.getElementById('closeModalButton').click();
                 } catch (err) {
                     console.error(err);
                 }

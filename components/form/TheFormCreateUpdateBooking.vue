@@ -1,6 +1,5 @@
 <template>
-    <Form @submit="handleSubmit">
-        <CVModal id_model="create-update-Booking-modal"
+    <CVModal id_model="create-update-Booking-modal"
         @close-modal="resetForm"  <!-- Lắng nghe sự kiện đóng modal và gọi resetForm -->
         >
             <template #icon>
@@ -20,88 +19,81 @@
                 </span>
             </template>
             <template #body>
-                <div class="row">
+                <Form ref="form" @submit="handleSubmit">
+                    <div class="row">
                     <div class="bg-light row m-0 p-2 mb-3" v-if ="showKH" >
                         <div class="row col-lg-6 mb-3 form-group required">
-                        <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Tên khách hàng
-                            </label>
-                            <div class="col-sm-8">
-                                <Field
-                                    name="nameCustomer"
-                                    v-model="Booking.nameCustomer"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{required:true,onlyCharacters :true}"
-                                />
-
-                                <ErrorMessage name="nameCustomer" class="text-danger" />
-                            </div>
-                        </div>
-                        <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Số điện thoại
-                            </label>
-                            <div class="col-sm-8">
-                                <Field
-                                    name="phoneNumber"
-                                    v-model="Booking.phoneNumber"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{required : true, phone:true}"
-                                />
-                                <ErrorMessage name="phoneNumber" class="text-danger" />
-                            </div>
-                        </div>
-                        <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Địa chỉ
-                            </label>
-                            <div class="col-sm-8">
-                                <Field
-                                    name="address"
-                                    v-model="Booking.address"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{required : true}"
-                                />
-                                <ErrorMessage name="address" class="text-danger" />
-                            </div>
-                        </div>
-                        <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Giới tính
-                            </label>
-                            <div class="col-sm-8">
-                                <select
-                                    v-model="Booking.gender"
-                                    class="form-control"
+                            <div class="row mb-3 form-group required">
+                                <label
+                                    for="source-name"
+                                    class="col-sm-4 col-form-label control-label text-end"
                                 >
-                                    <option
-                                        v-for="gender in Gender"
-                                        :key="gender"
-                                        :value="gender"
-                                    >
-                                        {{ gender }}
-                                    </option>
-                             </select>
+                                    Tên khách hàng
+                                </label>
+                                <div class="col-sm-8">
+                                    <Field
+                                        name="nameCustomer"
+                                        v-model="Booking.nameCustomer"
+                                        type="text"
+                                        class="form-control"
+                                        :rules="{required:true,onlyCharacters :true}"
+                                    />
+
+                                    <ErrorMessage name="nameCustomer" class="text-danger" />
+                                </div>
+                            </div>
+                            <div class="row mb-3 form-group required">
+                                <label
+                                    for="source-name"
+                                    class="col-sm-4 col-form-label control-label text-end"
+                                >
+                                    Số điện thoại
+                                </label>
+                                <div class="col-sm-8">
+                                    <Field
+                                        name="phoneNumber"
+                                        v-model="Booking.phoneNumber"
+                                        type="text"
+                                        class="form-control"
+                                        :rules="{required : true, phone:true}"
+                                    />
+                                    <ErrorMessage name="phoneNumber" class="text-danger" />
+                                </div>
+                            </div>
+                            <div class="row mb-3 form-group required">
+                                <label
+                                    for="source-name"
+                                    class="col-sm-4 col-form-label control-label text-end"
+                                >
+                                    Địa chỉ
+                                </label>
+                                <div class="col-sm-8">
+                                    <Field
+                                        name="address"
+                                        v-model="Booking.address"
+                                        type="text"
+                                        class="form-control"
+                                        :rules="{required : true}"
+                                    />
+                                    <ErrorMessage name="address" class="text-danger" />
+                                </div>
+                            </div>
+                            <div class="row mb-3 form-group required">
+                                <label
+                                    for="source-name"
+                                    class="col-sm-4 col-form-label control-label text-end"
+                                >
+                                    Giới tính
+                                </label>
+                                <div class="col-sm-8">
+                                    <select v-model="Booking.gender" class="form-control">
+                                        <option v-for="gender in Gender" :key="gender" :value="gender">
+                                            {{ gender ? 'Nam' : 'Nữ' }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
                     <div class="row col-lg-6 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
                             <label
@@ -138,25 +130,6 @@
                                 />
                                 <ErrorMessage name="email" class="text-danger" />
                             </div>
-                            
-                        </div>
-                        <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Số tài khoản
-                            </label>
-                            <div class="col-sm-8">
-                                <Field
-                                    name="accountBank"
-                                    v-model="Booking.accountBank"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{required : true}"
-                                />
-                                <ErrorMessage name="accountBank" class="text-danger" />
-                            </div>
                         </div>
                         <div class="row mb-3 form-group required">
                             <label
@@ -174,6 +147,24 @@
                                     :rules="{required : true}"
                                 />
                                 <ErrorMessage name="bankName" class="text-danger" />
+                            </div>
+                        </div>
+                        <div class="row mb-3 form-group required">
+                            <label
+                                for="source-name"
+                                class="col-sm-4 col-form-label control-label text-end"
+                            >
+                                Số tài khoản
+                            </label>
+                            <div class="col-sm-8">
+                                <Field
+                                    name="accountBank"
+                                    v-model="Booking.accountBank"
+                                    type="text"
+                                    class="form-control"
+                                    :rules="{required : true}"
+                                />
+                                <ErrorMessage name="accountBank" class="text-danger" />
                             </div>
                         </div>
                     </div>
@@ -268,7 +259,7 @@
                         </div>
                     </div>
                     <div class="row col-lg-6">
-                        <div class="row mb-3 form-group required">
+                        <!-- <div class="row mb-3 form-group required">
                             <label
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
@@ -284,7 +275,7 @@
                                     disabled
                                 />
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row mb-3 form-group required">
                             <label
@@ -337,12 +328,13 @@
                             </label>
                             <div class="col-sm-9">
                                 <TipTap v-model="Booking.customerInTours"></TipTap>
+                                <span v-if="errorCustomerInTours" class="text-danger">
+                                    {{ errorCustomerInTours }}
+                                </span>
                             </div>
                         </div>
                     </div>
-                  
                 </div>
-
                 <div class="modal-footer align-content-center justify-content-center">
                     <button
                         v-if="isEditMode"
@@ -355,16 +347,21 @@
                         v-else
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
                     >
                         Thêm
                     </button>
+                    <button 
+                        id="closeModalButton" 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        hidden>
+                    </button>
                 </div>
-            </template>
-        </CVModal>
-    </Form>
+            </Form>
+        </template>   
+    </CVModal>
 </template>
-
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import Api from '~/service/Base/api.ts';
@@ -373,10 +370,11 @@ import Tour_constants from '~/assets/js/constants/constants';
 import { useToast } from 'vue-toast-notification';
 const toast = useToast();
 const api = new Api();
-const formRef = ref(null);
+const form = ref(null);
 const emits = defineEmits(['Booking-saved']);
 const meetingPoint = ref({});
 const showKH = ref(false);
+
 /** received data */
 const props = defineProps({
     editBooking: {
@@ -390,10 +388,6 @@ const props = defineProps({
         required: true,
     },
 });
-
-/**
- * init statusBill
- */
 const statusBill = [
     { id: 1, value: 'Đã thanh toán' },
     { id: 2, value: 'Đã đặt cọc' },
@@ -402,10 +396,7 @@ const statusBill = [
     { id: 5, value:'Khách hàng hủy'},
 ];
 
-/**
- * init Booking
- */
-const Booking = ref({
+const defaultBooking = {
     tourId: '',
     customerId: '',
     totalBill: '',
@@ -424,28 +415,21 @@ const Booking = ref({
     accountBank: '',
     gender: true,
     bankName: '',
-    idCustomer:'',
-});
+    idCustomer: '',
+};
 
-/**
- * init Gender
- */
-const Gender = ['true', 'false'];
+const Booking = ref({ ...defaultBooking }); // Khởi tạo giá trị mặc định cho Booking
 
-/**
- * toggles the value of the 'showKH' varrible
- */
+const resetForm = () => {
+    // Reset giá trị của Booking bằng cách gán lại giá trị mặc định
+    Booking.value = { ...defaultBooking };
+    errorCustomerInTours.value = "";
+};
+const Gender = [true, false];  // Thay đổi thành các giá trị boolean
+// const Gender = ['true', 'false'];
 const showCustmomer = () => {
     showKH.value = !showKH.value;
 };
-
-/** reset form */
-const resetForm = () => {
-    if (formRef.value) {
-        formRef.value.resetForm();
-    }
-};
-/** update Booking */
 const updateBooking = async () => {
     const data = {
         tourId: Booking.value.tourId,
@@ -496,42 +480,47 @@ const updateBooking = async () => {
                         toast.success(mail.data.message);  // Hiển thị thông báo với toast (thành công)
             }
         }
+        document.getElementById('closeModalButton').click();
     } catch (error) {
         console.error('Error updating Booking:', error);
     }
-    resetForm();
 };
-/**
- * handle submit
- */
+const errorCustomerInTours = ref(''); // Biến để lưu lỗi của TipTap
 const handleSubmit = () => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = Booking.value.customerInTours; // Gán nội dung TipTap vào div tạm
+    const textContent = tempDiv.textContent.trim(); // Lấy nội dung text
+
+    if (!textContent) {
+        errorCustomerInTours.value = "Thông tin này không được để trống!";
+        return;
+    } else {
+        errorCustomerInTours.value = ""; // Xóa lỗi nếu hợp lệ
+    }
     if (props.isEditMode) {
         updateBooking();
     } else {
         createBooking();
     }
 };
-  /**
-   * Checks if the given status is disabled.
-   *
-   * @param {string} status - The status to check.
-   * @return {boolean} True if the status is cancelled, unpaid, or pending, false otherwise.
-   */
 const isDisabled=(status) => {
             return status === Tour_constants.Cancel ||
                    //status === Tour_constants.UnPaid ||
                    status===Tour_constants.Deposited||
-                   status===Tour_constants.Customercancel||
+                //    status===Tour_constants.Customercancel||
                    status === Tour_constants.Pending;
         }
-/**
- * update data of edit Booking
- */
 watch(
     () => props.editBooking,
     (newVal) => {
         if (newVal) {
             Booking.value = { ...newVal };
+            if (form.value) {
+                form.value.resetForm({
+                    values: { ...Booking.value }, // Cập nhật giá trị mới cho form
+                    errors: {},                    // Đặt lại tất cả lỗi
+                });
+            }
         }
     },
     { immediate: true },

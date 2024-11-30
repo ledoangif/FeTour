@@ -91,7 +91,7 @@
             <div class="col-lg-2 bg-white p-0" v-if="showSideBar">
                 <div class="position-relative sidebar" tabindex="-1">
                     <NuxtLink
-                        to=""
+                        to="/Dashboard"
                         class="py-3 d-flex flex-row ps-4 text-decoration-none nav-link"
                         v-if="role === 'Admin'"
                     >

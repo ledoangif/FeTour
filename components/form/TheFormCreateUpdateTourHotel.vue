@@ -134,6 +134,13 @@
                         </svg>
                         Thêm
                     </button>
+                    <button 
+                        id="closeModalButton" 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        hidden>
+                    </button>
                 </div>
             </template>
         </CVModal>
@@ -217,7 +224,7 @@ const createTourHotel = () => {
     api.postAPI('/TourHotel', formData)
         .then((res) => {
             emits('TourHotel-saved');
-            $('#create-update-TourHotel-modal').modal('hide');
+            document.getElementById('closeModalButton').click();
         })
         .catch((error) => {
             console.error('Error creating TourHotel:', error);
@@ -239,7 +246,7 @@ const updateTourHotel = () => {
     api.putAPI(`/TourHotel/${props.editTourHotel.id}`, data)
         .then((res) => {
             emits('TourHotel-saved');
-            //$('#create-update-TourHotel-modal').modal('hide');
+            document.getElementById('closeModalButton').click();
         })
         .catch((error) => {
             console.error('Error updating TourHotel:', error);

@@ -127,7 +127,8 @@
                                 {{ Customer.address }}
                             </td>
                             <td colspan="2" class="p-4">
-                                {{ Customer.accountBank }} <br />
+                                {{ Customer.accountBank }} 
+                                <br />
                                 {{ Customer.bankName }}
                             </td>
 
@@ -331,23 +332,4 @@ const setPage = (number) => {
     getCustomers();
 };
 
-/**
- * Excel
- */
-const excelExport = async () => {
-    let options = {
-        responseType: 'blob',
-    };
-
-    const apiUrl = `/Customer/ExcelExportCustomer`;
-    var response = await api.get(apiUrl, options);
-    var blob = new Blob([response.data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.setAttribute('download', 'Customer_CV.xlsx');
-    document.body.appendChild(link);
-    link.click();
-};
 </script>

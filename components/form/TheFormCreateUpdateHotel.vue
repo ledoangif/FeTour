@@ -12,7 +12,7 @@
                 </span>
             </template>
             <template #body>
-                <Form ref="formRef" @submit="handleSubmit" :key="formKey">
+                <Form ref="formRef" @submit="handleSubmit" :key="formKey" >
                     <div class="row">
                     <div class="row col-lg-8 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
@@ -132,7 +132,7 @@
                                     v-model="Hotel.hotline"
                                     type="text"
                                     class="form-control"
-                                    :rules="{required : true}"
+                                    :rules="{required : true,phone:true}"
                                 />
                                 <ErrorMessage name="hotline" class="text-danger" />
                             </div>
@@ -178,6 +178,13 @@
                             />
                         </svg>
                         Thêm
+                    </button>
+                    <button 
+                        id="closeModalButton" 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        hidden>
                     </button>
                 </div>
                 </Form>
@@ -246,7 +253,7 @@ const createHotel = () => {
                 }
             }
             emits('Hotel-saved');
-           // $('#create-update-Hotel-modal').modal('hide');
+            document.getElementById('closeModalButton').click();
         })
         .catch((error) => {
             console.error('Error creating Hotel:', error);
@@ -267,7 +274,7 @@ const updateHotel = () => {
         .then((res) => {
             emits('Hotel-saved');
             toast.success('Cập nhật thành công')
-            //$('#create-update-Hotel-modal').modal('hide');
+            document.getElementById('closeModalButton').click();
         })
         .catch((error) => {
             console.error('Error updating Hotel:', error);
@@ -281,7 +288,6 @@ const handleSubmit = () => {
     } else {
          createHotel();
     }
-    //$('#create-update-Hotel-modal').modal('hide'); // Chỉ đóng modal khi không có lỗi
   } catch (error) {
     console.error('Submit failed:', error);
   }

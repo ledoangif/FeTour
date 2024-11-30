@@ -293,9 +293,6 @@ definePageMeta({
     middleware: ['auth','admin'],
 });
 
-/**
- * get all Bookings
- */
 const getBookings = async () => {
     try {
         var response = await api.get(
@@ -356,7 +353,7 @@ const BookingEdit = async (Booking) => {
             identityCard: customer.value.identityCard,
             email: customer.value.email,
             accountBank: customer.value.accountBank,
-            bankName: customer.bankName,
+            bankName: customer.value.bankName,
         };
         isEditMode.value = true;
     } catch (err) {
@@ -364,9 +361,6 @@ const BookingEdit = async (Booking) => {
     }
 };
 
-/**
- * reset form search
- */
 const resetSearchForm = async () => {
     try {
         searchString.value = '';
@@ -376,9 +370,7 @@ const resetSearchForm = async () => {
     }
 };
 
-/**
- * search
- */
+
  const search = async () => {
     try {
         if (!searchString.value) {
@@ -395,9 +387,6 @@ const resetSearchForm = async () => {
     }
 };
 
-/**
- * Pagination
- */
 const nextPage = () => {
     pageNumber.value++;
     getInfor();

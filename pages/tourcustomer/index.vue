@@ -276,7 +276,6 @@
             </div>
         </div>
     </section>
-
     <Footer @select-country="handleCountrySelect" />
 </template>
 <script setup>

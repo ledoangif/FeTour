@@ -66,8 +66,8 @@ export default defineNuxtPlugin(() => {
         const number = parseInt(value, 10);
 
         // Kiểm tra nếu giá trị không phải là một số hợp lệ, không phải số nguyên, hoặc nhỏ hơn 1
-        if (isNaN(number) || number < 1 || value.includes('.') || value.includes(',')) {
-            return 'Phải là số tự nhiên, không có dấu thập phân và phải lớn hơn hoặc bằng 1.';
+        if (isNaN(number) || number < 1) {
+            return 'Phải là số tự nhiên và phải lớn hơn hoặc bằng 1.';
         }
         return true;
     });

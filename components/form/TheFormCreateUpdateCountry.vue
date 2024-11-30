@@ -92,7 +92,6 @@
                         v-if="isEditMode"
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        
                     >
                         Lưu
                     </button>
@@ -100,9 +99,15 @@
                         v-else
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        
                     >
                         Thêm
+                    </button>
+                    <button 
+                        id="closeModalButton" 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        hidden>
                     </button>
                 </div>
             </Form>
@@ -198,8 +203,6 @@ const handlefiles = async (event) => {
         }
     } catch (error) {
         toast.error("Tải ảnh thất bại vui lòng tải lại")
-        //console.error("Có lỗi khi tải ảnh lên:", error);
-        //alert("Đã có lỗi xảy ra khi tải ảnh lên!");
     }
 };
 const createCountry = async () => {
@@ -213,12 +216,11 @@ const createCountry = async () => {
         await api.postAPI('/Country/InsertCountry', formData);
         // Thông báo đã lưu thành công, đóng modal và reset form
         emits('Country-saved');
-        $('#create-update-Country-modal').modal('hide');
         toast.success('Thêm thành công!');
+        document.getElementById('closeModalButton').click();
     } catch (error) {
         console.error('Error creating Country:', error);
     }
-    resetForm();
 };
 
 const updateCountry =  () => {
@@ -231,10 +233,9 @@ const updateCountry =  () => {
      api.putAPI(`/Country/${props.editCountry.id}`, data)
      .then((res)=>{
         emits('Country-saved');
-        //$('#create-update-Country-modal').modal('hide');
         toast.success('Cập nhật thành công!');
+        document.getElementById('closeModalButton').click();
      })
-        
     .catch ((error)=> {
         console.error('Error updating Country:', error);
         errorMessage.value = "Đã xảy ra lỗi khi cập nhật quốc gia. Vui lòng thử lại.";

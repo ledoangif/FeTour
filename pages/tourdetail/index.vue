@@ -337,7 +337,7 @@
                             </span>
                             <div class="ms-4 pb-3" v-if="showPayment">
                                 <span>
-                                    Quý khách vui lòng thanh toán đầy đủ trong 2 giờ để
+                                    Quý khách vui lòng thanh toán đầy đủ trong 24 giờ để
                                     đặt tour thành công.</span
                                 >
                             </div>
