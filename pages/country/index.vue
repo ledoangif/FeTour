@@ -157,6 +157,7 @@
                                         </svg>
                                     </NuxtLink>
                                     <NuxtLink
+                                        v-if="role == 'Admin'"
                                         class="link link-danger text-decoration-none mx-1"
                                         style="cursor: pointer"
                                         @click="deleteCountry(Country.id)"
@@ -219,14 +220,16 @@ const pageNumber = ref(1);
 const totalPage = ref(0);
 const totalCount = ref(0);
 const pageSize = ref(10);
-
+const role = ref('');
 /**
  * auth
  */
 definePageMeta({
     middleware: ['auth','admin'],
 });
-
+if (process.client) {
+    role.value = localStorage.getItem('role');
+}
 /**
  * get all Countrys
  */

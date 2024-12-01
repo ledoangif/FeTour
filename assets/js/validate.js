@@ -24,14 +24,14 @@ function formatDateYYYYmmdd(date) {
     }
     return format(dateObj, 'yyyy-MM-dd');
 };
-function formatDate (date)  {
+function formatDate(date) {
     const parsedDate = new Date(date);
     if (isNaN(parsedDate)) {
         return 'Invalid Date'; // Or any other fallback message
     }
     return format(parsedDate, 'dd-MM-yyyy');
 };
-function formatDate2 (isoString) {
+function formatDate2(isoString) {
     const dateObject = new Date(isoString);
     const weekdays = [
         'Chủ Nhật',
@@ -61,7 +61,7 @@ function formatCurrency(value) {
         currency: 'VND',
     }).format(value);
 }
-function addTwoHoursAndFormat (datePay) {
+function addTwoHoursAndFormat(datePay) {
     var date = new Date(datePay);
     date.setHours(date.getHours() + 2); // Thêm 2 giờ
 
@@ -73,8 +73,7 @@ function addTwoHoursAndFormat (datePay) {
     var formattedDateTime = `${hours}:${minutes} ${day}/${month}/${year}`;
     return formattedDateTime;
 };
-function addOneDay (datePay)
-{
+function addOneDay(datePay) {
     var date = new Date(datePay);
     date.setDate(date.getDate() + 1);
     var hours = date.getHours().toString().padStart(2, '0');
@@ -85,29 +84,28 @@ function addOneDay (datePay)
     var formattedDateTime = `${hours}:${minutes} ${day}/${month}/${year}`;
     return formattedDateTime;
 }
-function paymentDeadline (paymentBy,paymentTime) 
-    {
-        return paymentBy === Tour_constants.Cash ? addOneDay(paymentTime) : addTwoHoursAndFormat(paymentTime);
+function paymentDeadline(paymentBy, paymentTime) {
+    return paymentBy === Tour_constants.Cash ? addOneDay(paymentTime) : addTwoHoursAndFormat(paymentTime);
+}
+function formatDatePayment(datePay) {
+    var date = new Date(datePay);
+
+    var hours = date.getHours().toString().padStart(2, '0');
+    var minutes = date.getMinutes().toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+
+    var year = date.getFullYear();
+    var formattedDateTime = `${hours}:${minutes} ${day}/${month}/${year}`;
+    return formattedDateTime;
+};
+function maskPhoneNumber(phoneNumber) {
+    if (!phoneNumber || phoneNumber.length < 6) {
+        return phoneNumber;
     }
-function formatDatePayment (datePay) {
-        var date = new Date(datePay);
-    
-        var hours = date.getHours().toString().padStart(2, '0');
-        var minutes = date.getMinutes().toString().padStart(2, '0');
-        var day = date.getDate().toString().padStart(2, '0');
-        var month = (date.getMonth() + 1).toString().padStart(2, '0');
-    
-        var year = date.getFullYear();
-        var formattedDateTime = `${hours}:${minutes} ${day}/${month}/${year}`;
-        return formattedDateTime;
-    };
-function maskPhoneNumber (phoneNumber) {
-        if (!phoneNumber || phoneNumber.length < 6) {
-            return phoneNumber;
-        }
-        var start = phoneNumber.slice(0, 3);
-        var end = phoneNumber.slice(-3);
-        var masked = start + '***' + end;
-        return masked;
-    };
-export { isArrayEmpty, formatDateYYYYmmdd, formatCurrency,formatDate,formatDate2,addTwoHoursAndFormat,addOneDay,paymentDeadline ,formatDatePayment,maskPhoneNumber}
+    var start = phoneNumber.slice(0, 3);
+    var end = phoneNumber.slice(-3);
+    var masked = start + '***' + end;
+    return masked;
+};
+export { isArrayEmpty, formatDateYYYYmmdd, formatCurrency, formatDate, formatDate2, addTwoHoursAndFormat, addOneDay, paymentDeadline, formatDatePayment, maskPhoneNumber }

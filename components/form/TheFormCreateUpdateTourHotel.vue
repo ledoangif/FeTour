@@ -1,5 +1,4 @@
 <template>
-    <Form @submit="handleSubmit" :key="formKey">
         <CVModal id_model="create-update-TourHotel-modal"
         @close-modal="resetForm">
             <template #icon>
@@ -7,13 +6,14 @@
             </template>
             <template #title>
                 <span v-if="!isEditMode">
-                    <slot name="header">Thêm Điểm dừng chân </slot>
+                    <slot name="header">Thêm khách sạn trong tour </slot>
                 </span>
                 <span v-else>
-                    <slot name="header">Cập nhật Điểm dừng chân </slot>
+                    <slot name="header">Cập nhật khách sạn trong tour </slot>
                 </span>
             </template>
             <template #body>
+                <Form @submit="handleSubmit" :key="formKey">
                 <div class="row">
                     <div class="row col-lg-6 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
@@ -21,7 +21,7 @@
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
                             >
-                                Tên Điểm dừng chân
+                                Tên khách sạn
                             </label>
                             <div class="col-sm-8">
                                 <Field
@@ -30,7 +30,8 @@
                                     name="hotel"
                                     v-model="TourHotel.hotelId"
                                     class="form-control"
-                                >
+                                    :rules="{ required: true}">
+                                    
                                     <option
                                         v-for="item in Hotel"
                                         class="text-dark"
@@ -39,6 +40,7 @@
                                         {{ item.hotelName }}
                                     </option>
                                 </Field>
+                                <ErrorMessage name="hotel" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -54,7 +56,8 @@
                                     v-model="TourHotel.note"
                                     type="text"
                                     class="form-control"
-                                />
+                                    :rules="{ required: true}" />
+                                <ErrorMessage name="note" class="text-danger" />
                             </div>
                         </div>
                     </div>
@@ -72,7 +75,8 @@
                                     v-model="TourHotel.dateStart"
                                     type="date"
                                     class="form-control"
-                                />
+                                    :rules="{ required: true}" />
+                                <ErrorMessage name="dateStart" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -88,7 +92,8 @@
                                     v-model="TourHotel.dateEnd"
                                     type="date"
                                     class="form-control"
-                                />
+                                    :rules="{ required: true ,endDateGreaterThanStart: [TourHotel.dateStart]}" />
+                                    <ErrorMessage name="dateEnd" class="text-danger" />
                             </div>
                         </div>
                     </div>
@@ -142,9 +147,10 @@
                         hidden>
                     </button>
                 </div>
+            </Form>
             </template>
         </CVModal>
-    </Form>
+    
 </template>
 
 <script setup>

@@ -73,14 +73,15 @@
                             </label>
                             <div class="col-sm-8">
                                 <Field as="select" id="isLocal" name="isLocal" v-model="Tour.isLocal"
-                                    class="form-control">
-                                    <option v-for="item in isLocal" class="text-dark" :value="item.value">
+                                    class="form-control" >
+                                    <option v-for="item in isLocal" class="text-dark" :value="item.value" >
                                         {{ item.value ? 'Nội địa' : 'Nước ngoài' }}
                                     </option>
                                     <!-- <option v-for="gender in Gender" :key="gender" :value="gender">
                                         {{ gender ? 'Nam' : 'Nữ' }}
                                     </option> -->
                                 </Field>
+                                <ErrorMessage name="isLocal" class="text-danger"></ErrorMessage>
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -89,11 +90,12 @@
                             </label>
                             <div class="col-sm-8">
                                 <Field as="select" id="country" name="country" v-model="Tour.countryId"
-                                    class="form-control">
+                                    class="form-control" :rules="{ required: true}">
                                     <option v-for="item in filteredCountries" class="text-dark" :value="item.id">
                                         {{ item.countryName }}
                                     </option>
                                 </Field>
+                                <ErrorMessage name="country" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -269,6 +271,7 @@ const Country = ref([]);
 const form = ref(null);
 const emits = defineEmits(['Tour-saved']);
 const accountId = ref('');
+
 /** received data */
 const props = defineProps({
     editTour: {

@@ -378,9 +378,6 @@ const api = new Api();
 const route = useRoute();
 const Tourid = computed(() => route.query.id);
 const Tour = ref({});
-const VehicleTour = ref({});
-const Vehicle = ref({});
-const VehicleByTour = ref([]);
 const showHotline = ref(false);
 const showInclude = ref(false);
 const showNotInclude = ref(false);
@@ -419,18 +416,6 @@ const sendEmail = async () => {
 const fetchData = async () => {
     const getTour = await api.get(`/Tour/${Tourid.value}`);
     Tour.value = getTour.data.responseData;
-
-    // Fetch VehicleTour data
-    const getVehicleTour = await api.get(`/TourVehicle/SearchVehicle?id=${Tourid.value}`);
-    VehicleTour.value = getVehicleTour.data.responseData;
-    // Fetch Vehicle data
-    const getVehicle = await api.get(`/Vehicle`);
-    Vehicle.value = getVehicle.data.responseData;
-
-    // Populate VehicleByTour based on matching IDs
-    VehicleByTour.value = Vehicle.value.filter((vehicle) =>
-        VehicleTour.value.some((vehicleTour) => vehicleTour.vehicleId === vehicle.id),
-    );
 };
 
 

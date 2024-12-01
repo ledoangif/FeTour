@@ -316,7 +316,29 @@
                                         </svg>
                                     </NuxtLink>
                                 </div>
-                               
+                                <div class = "d-flex flex-row mt-2 ps-5">
+                                <NuxtLink
+                                        class="link link-danger text-decoration-none mx-1"
+                                        style="cursor: pointer"
+                                        :to="{
+                                            path: '/tourhotel',
+                                            query: { id: Tour.id },
+                                        }"
+                                    >
+                                        <i class="fa-solid fa-bed text-primary"></i>
+                                    </NuxtLink>
+
+                               <NuxtLink
+                                        class="link link-danger text-decoration-none mx-1"
+                                        style="cursor: pointer"
+                                        :to="{
+                                            path: '/customerInTour',
+                                            query: { id: Tour.id },
+                                        }"
+                                    >
+                                    <i class="fa-solid fa-users text-dark"></i>
+                                    </NuxtLink>
+                               </div>
                             </td>
                         </tr>
                     </tbody>

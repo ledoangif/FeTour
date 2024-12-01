@@ -220,11 +220,13 @@ const countBookingCanelorNot = async () => {
 
     const responseSuccess = await api.get(`/Booking/CountBookingCancelorNotCancel?status=${Tour_constants.Paid}`);
     const Success = responseSuccess.data.responseData;
-
+    const responsecustomercancel = await api.get(`/Booking/CountBookingCancelorNotCancel?status=${Tour_constants.Customercancel}`);
+    const Customercancel = responsecustomercancel.data.responseData;
     // Trả về dữ liệu
     return {
       Cancel: Cancel,
-      Success: Success
+      Success: Success,
+      Customercancel : Customercancel
     };
   } catch (error) {
     console.error('Error fetching booking count data:', error);
@@ -243,9 +245,9 @@ const countBookingCanelorNot = async () => {
       const dataCount = await countBookingCanelorNot();
     
     // Cập nhật dữ liệu cho biểu đồ hình tròn
-    const totalOrders = dataCount.Success + dataCount.Cancel;
+    const totalOrders = dataCount.Success + dataCount.Cancel +dataCount.Customercancel;
     const successPercentage = (dataCount.Success / totalOrders) * 100;
-    const cancelPercentage = (dataCount.Cancel / totalOrders) * 100;
+    const cancelPercentage = ((dataCount.Cancel + dataCount.Customercancel) / totalOrders) * 100;
 
     // Cập nhật dữ liệu cho biểu đồ hình tròn
     pieChartData.value.labels = ['Đơn thành công', 'Đơn bị hủy'];
