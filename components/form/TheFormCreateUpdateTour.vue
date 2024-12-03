@@ -415,7 +415,6 @@ const createTour = () => {
         formData2.append('placeEnd', Tour.value.placeEnd);
         formData2.append('place', Tour.value.place);
         formData2.append('meetingPoint', Tour.value.meetingPoint);
-        formData2.append('appUserId', accountId.value);
         api.postAPI('/Tour/InsertTour', formData2)
         emits('Tour-saved');
         toast.success('Thêm thành công!');
@@ -490,7 +489,6 @@ const updateTour = () => {
         placeStart: Tour.value.placeStart || '',
         place: Tour.value.place || '',
         meetingPoint: Tour.value.meetingPoint || '',
-        appUserId: props.editTour.appUserId || null,
         id: props.editTour.id || null,
     };
     

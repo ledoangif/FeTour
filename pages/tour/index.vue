@@ -207,7 +207,6 @@
                             <td class="p-4">
                                 <span class="text-danger">{{ Tour.nameTour }}</span>
                                 <br />
-
                                 <div class="row">
                                     <div class="col-6">
                                         <svg
@@ -225,10 +224,11 @@
 
                                         <span> {{ Tour.seat }}</span>
                                         <br />
-                                        <i class="fa-solid fa-arrow-trend-down"></i>
+                                        <!-- <i class="fa-solid fa-arrow-trend-down"></i>
 
                                         {{ Tour.discount || 0 }} %
-                                        <br />
+                                        <br /> -->
+                                        
                                         Giá mua:
                                         <span>
                                             {{ formatCurrency(Tour.priceBuy) }}
@@ -317,27 +317,7 @@
                                     </NuxtLink>
                                 </div>
                                 <div class = "d-flex flex-row mt-2 ps-5">
-                                <NuxtLink
-                                        class="link link-danger text-decoration-none mx-1"
-                                        style="cursor: pointer"
-                                        :to="{
-                                            path: '/tourhotel',
-                                            query: { id: Tour.id },
-                                        }"
-                                    >
-                                        <i class="fa-solid fa-bed text-primary"></i>
-                                    </NuxtLink>
-
-                               <NuxtLink
-                                        class="link link-danger text-decoration-none mx-1"
-                                        style="cursor: pointer"
-                                        :to="{
-                                            path: '/customerInTour',
-                                            query: { id: Tour.id },
-                                        }"
-                                    >
-                                    <i class="fa-solid fa-users text-dark"></i>
-                                    </NuxtLink>
+                                
                                </div>
                             </td>
                         </tr>
@@ -432,7 +412,7 @@ onMounted(async () => {
     try {
         // Gọi API để lấy danh sách tours
         await getTours();
-
+        
         // Lấy danh sách điểm khởi hành và điểm đến trong nước
         Tours.value.forEach((tour) => {
             if (!placeStartList.value.includes(tour.placeStart)) {
@@ -450,7 +430,10 @@ onMounted(async () => {
         console.log(err);
     }
 });
-
+// onMounted(async () => {
+//     await getTours();
+//     await fetchData();
+// })
 /**
  * Search
  * @param {} date
@@ -542,16 +525,11 @@ const onCreateMode = async () => {
 const fetchData = async () => {
     const resCountry = await api.get(`/Country`, null);
     Country.value = resCountry.data.responseData;
-    const res = await api.get(`/Account/All`, null);
-    User.value = res.data.responseData;
 };
 /**
  * call
  */
-onMounted(async () => {
-    await getTours();
-    await fetchData();
-})
+
 const reloadTourList = async () => {
     const getTour = await api.get(`/Tour/GetAllTour`, null);
     Tours.value = getTour.data.responseData;

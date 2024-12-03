@@ -107,14 +107,6 @@ onMounted(async () => {
   }
 })
 
-// const updateBookingStatus = async (bookingId) => {
-//   try {
-//     const response = await api.putAPI(`/Booking/UpdateStatusToUnpaid?bookingId=${bookingId}`);
-//     console.log('Cập nhật trạng thái thành công:', response.data);
-//   } catch (error) {
-//     console.error('Lỗi cập nhật trạng thái booking:', error);
-//   }
-// }
 const updateBookingStatus = async (bookingId) => {
   try {
     // Gửi yêu cầu PUT để cập nhật trạng thái của booking
@@ -135,19 +127,16 @@ const updateBookingStatus = async (bookingId) => {
       
       if (mailResponse.status === 200) {
         console.log('Email gửi thành công:', mailResponse.data);
-        toast.success('Email thông báo trạng thái đã được gửi!');
       } else {
-        toast.error('Có lỗi xảy ra khi gửi email.');
+        console.error('Lỗi cập nhật trạng thái email:', error);
       }
     } else {
-      toast.error('Không thể cập nhật trạng thái booking.');
+      console.error('Lỗi cập nhật trạng thái booking:', error);
     }
   } catch (error) {
     console.error('Lỗi cập nhật trạng thái booking:', error);
-    toast.error('Có lỗi xảy ra khi cập nhật trạng thái booking.');
   }
 };
-
 
 </script>
 <style scoped>

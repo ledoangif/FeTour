@@ -5,7 +5,8 @@
              <div class=" d-flex flex-row justify-content-between ms-5 mb-3" >
               <div class=" fs-4 " ><span class="text-primary fw-bold">Tổng số tour:</span> {{ props.totalTour }}</div>
               <div class="fs-4"><span class="text-primary fw-bold">Tổng số khách sạn:</span> {{ props.totalHotel }}</div>
-              <div class=" fs-4"><span class="text-primary fw-bold">Tổng số nhân viên:</span> {{ props. account}}</div>
+              <!-- <div class=" fs-4"><span class="text-primary fw-bold">Tổng số nhân viên:</span> {{ props.account}}</div> -->
+              <div class=" fs-4"><span class="text-primary fw-bold">Tổng số khách hàng:</span> {{ props.totalcustomer}}</div>
              </div>
           <table
                     class="table text-center  table-hover  "
@@ -62,7 +63,9 @@ const props = defineProps({
   totalBill: Number,
   totalTour: Number,
   totalHotel: Number,
-  account: Number
+  account: Number,
+  totalB: Number,
+  totalcustomer: Number,
 })
 // Đăng ký các thành phần với Chart.js
 ChartJS.register(

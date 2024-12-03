@@ -236,8 +236,7 @@ import Search from '~/components/Search.vue';
 import DeleteAccountModal from '~/components/form/DeleteAccountModal.vue';
 import TheFormCreateUpdateAccount from '~/components/form/TheFormCreateUpdateAccount.vue';
 import Api from '~/service/Base/api.ts';
-const totalCount = ref(0);
-
+const account = ref(0);
 
 const api = new Api();
 definePageMeta({

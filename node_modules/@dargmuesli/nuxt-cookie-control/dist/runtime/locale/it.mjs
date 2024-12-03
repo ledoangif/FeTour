@@ -1,0 +1,17 @@
+export default {
+  accept: "Accetta",
+  acceptAll: "Accetta tutto",
+  bannerDescription: "Utilizziamo cookie propri e di terzi per mostrarvi la pagina web e capire come la utilizzate, nonch\xE9 per migliorare i servizi che offriamo. Se continuate a navigare, consideriamo che accettate il loro utilizzo.",
+  bannerTitle: "Cookies",
+  close: "Chiudi",
+  cookiesFunctional: "Cookie funzionali",
+  cookiesNecessary: "Cookie necessari",
+  cookiesOptional: "Cookie opzionali",
+  decline: "Accetto il necessario",
+  declineAll: "Cancella tutto",
+  here: "qui",
+  iframeBlocked: "Per vedere questo, si prega di abilitare i cookie funzionali",
+  manageCookies: "Gestisci i cookie",
+  save: "Salva",
+  settingsUnsaved: "Ci sono impostazioni non salvate"
+};

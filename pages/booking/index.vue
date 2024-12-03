@@ -400,22 +400,5 @@ const setPage = (number) => {
     getInfor();
 };
 
-/**
- * Excel
- */
-const excelExport = async () => {
-    let options = {
-        responseType: 'blob',
-    };
-    const apiUrl = `/Booking/ExcelExportBooking`;
-    var response = await api.get(apiUrl, options);
-    var blob = new Blob([response.data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.setAttribute('download', 'Booking_CV.xlsx');
-    document.body.appendChild(link);
-    link.click();
-};
+
 </script>

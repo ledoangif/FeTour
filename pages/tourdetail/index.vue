@@ -228,7 +228,7 @@
                             </span>
                             <div class="ms-4 pb-3" v-if="showInclude">
                                 <span v-html="Tour.serviceInclude"></span><br />
-                                <span>- Phòng khách, tiêu chuẩn 2 khách/phòng</span><br />
+                                <!-- <span>- Phòng khách, tiêu chuẩn 2 khách/phòng</span><br />
                                 <span>- Bảo hiểm du lịch</span><br />
 
                                 <span>
@@ -236,7 +236,7 @@
                                     (đến 80 tuổi) phí Bảo Hiểm Du Lịch với mức bồi thường
                                     tối đa là 460.000.000 VNĐ cho nhân mạng và 30.000.000
                                     VNĐ cho hành lý.
-                                </span>
+                                </span> -->
                             </div>
                         </div>
                         <div class="bg-light rounded mt-2">
@@ -252,7 +252,7 @@
                             <div class="ms-4 pb-3" v-if="showNotInclude">
                                 <span>
                                     <span v-html="Tour.serviceNotInclude"></span><br />
-                                    - Hộ chiếu <br />
+                                    <!-- - Hộ chiếu <br />
                                     - Chi phí ăn uống cá nhân <br />
                                     - Các chi phí khác không bao gồm trong giá: Nước uống
                                     bia rượu trong bữa ăn, điện thoại, giặt ủi, chi phí
@@ -269,15 +269,15 @@
                                     (trừ khách Việt Kiều) sẽ phụ thu 1.000.000
                                     vnd/khách.<br />
 
-                                    <br
-                                /></span>
-                                <br />
+                                    <br/> -->
+                                </span>
+                                <!-- <br />
                                 <span class="text-danger"
                                     >* Lưu ý: Nếu Quý Khách có nhu cầu tách đoàn, vui lòng
                                     thông báo cho nhân viên bán tour ngay tại thời điểm
                                     đăng ký tour, Quý khách sẽ thanh toán thêm chi phí là
                                     1.500.000vnđ/khách/ngày</span
-                                >
+                                > -->
                             </div>
                         </div>
                         <div class="bg-light rounded mt-2">
@@ -322,6 +322,10 @@
                                         </ul>
                                     </li>
                                 </ul>
+                                <br/>
+                                Trường hợp hủy tour do sự cố khách quan như : thiên tai, dịch bệnh hoặc do phương tiện hoãn/hủy chuyến ,
+                                 công ty sẽ hỗ trợ bảo lưu số tiền quý khách đã thanh toán và dời sang ngày khởi hành phù hợp tiếp theo ,
+                                  hoặc Quý khách có thể đổi sang tour khác có giá trị tour bằng hoặc cao hơn tour cũ.
 
                             </div>
                         </div>

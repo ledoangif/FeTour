@@ -1,7 +1,7 @@
 <template>
     <NuxtLayout name="Admin">
         
-        <LineChart :totalBill="totalBill" :totalTour="totalTour" :totalHotel="totalHotel" :account="account" />
+        <LineChart :totalBill="totalBill" :totalTour="totalTour" :totalHotel="totalHotel" :account="account" :totalB="totalB" :totalcustomer="totalcustomer"/>
     </NuxtLayout>
 </template>
 
@@ -26,20 +26,31 @@ const account = ref(0);
 const totalTour = ref(0);
 const totalHotel = ref(0);
 const Bill = ref([]);
+const totalB=ref(0);
 const ListToTalBill = ref([]);
-
+const totalcustomer=ref(0);
 /**
  * Get data
  */
 onMounted(async () => {
     const accountAPI = await api.get('/Account/All');
     account.value = accountAPI.data.responseData.length;
+
     const resTour = await api.get(`/Tour`, null);
     totalTour.value = resTour.data.responseData.length;
+
     const resHotel = await api.get(`/Hotel`, null);
     totalHotel.value = resHotel.data.responseData.length;
+
+    const resBooking1 = await api.get(`/Booking`, null);
+    totalB.value=resBooking1.data.responseData.length;
+
+    const rescus=await api.get(`/Customer`, null);
+    totalcustomer.value=rescus.data.responseData.length;
+
     const resBooking = await api.get(`/Booking`, null);
     Bill.value = resBooking.data.responseData;
+    
     
     // get list bill in this year
     const currentYear = new Date().getFullYear();
