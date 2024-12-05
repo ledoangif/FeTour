@@ -27,7 +27,7 @@
                     </h6>
                     <h6 class="mt-3">Thời gian : {{ Tour.numOfDay }} ngày</h6>
                     <h6 class="mt-3">Nơi khởi hành : {{ Tour.placeStart }}</h6>
-                    <h6 class="mt-3">Số chỗ còn nhận : {{ Tour.slot }}</h6>
+                    <h6 class="mt-3">Số chỗ còn nhận:{{ Tour.slot }}</h6>
                 </div>
             </div>
             <div class="row mt-5">

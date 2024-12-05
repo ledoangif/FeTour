@@ -32,7 +32,7 @@
                                 </svg>
                                 Tìm kiếm
                             </button>
-                            <button
+                            <!-- <button
                                 class="btn btn-sm btn-outline-primary"
                                 type="reset"
                                 @click="resetSearchForm()"
@@ -49,7 +49,7 @@
                                     />
                                 </svg>
                                 Xóa Form
-                            </button>
+                            </button> -->
                         </span>
                     </div>
                 </form>
@@ -81,7 +81,7 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="reload">
+                    <!-- <div class="reload">
                         <a class="text-info" href="#" @click="getHotels()">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@
                                 />
                             </svg>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <table
                     class="table text-center table-hover table-success table-striped-columns"
@@ -202,7 +202,7 @@
                     @Hotel-deleted="getHotels"
                     @hide-modal="getHotels()"
                 />
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <span class="me-5">Tổng số: {{ totalCount }} khách sạn</span>
                         <span>
@@ -216,7 +216,7 @@
                         </span>
                     </div>
                     <div></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -248,20 +248,29 @@ if (process.client) {
 /**
  * get all Hotels
  */
+// const getHotels = async () => {
+//     try {
+//         var response = await api.get(
+//             `/Hotel/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+//         );
+//         console.log(response);
+//         Hotels.value = response.data.responseData.data;
+//         totalCount.value = response.data.responseData.pagination.totalCount;
+//         totalPage.value = response.data.responseData.pagination.totalPage;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 const getHotels = async () => {
     try {
         var response = await api.get(
-            `/Hotel/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+            `/Hotel`,null,
         );
-        console.log(response);
-        Hotels.value = response.data.responseData.data;
-        totalCount.value = response.data.responseData.pagination.totalCount;
-        totalPage.value = response.data.responseData.pagination.totalPage;
+        Hotels.value = response.data.responseData;
     } catch (err) {
         console.log(err);
     }
 };
-
 
 
 /**

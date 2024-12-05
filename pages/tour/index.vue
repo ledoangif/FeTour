@@ -42,17 +42,17 @@
                                 v-model="nameTour"
                                 type="text"
                                 class="form-control ms-2  "
-                                placeholder="Nhập từ khóa tour "
+                                placeholder="Tên tour... "
                             />
                         </div>
-                        <button
+                        <!-- <button
                             type="button"
                             class="bg-infor btn-default rounded-2 form-control ms-3 "
                             style="padding: 0.25rem 0.5rem; font-size: 1rem; width: auto;"
                             @click="reloadTourList"
                         >
                             <i class="fa-solid fa-arrows-rotate"></i>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
                 <div class="d-flex flex-row">
@@ -173,7 +173,7 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="reload">
+                    <!-- <div class="reload">
                         <a class="text-info" href="#" @click="getTours()">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +187,7 @@
                                 />
                             </svg>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <table
                     class="table text-center table-hover table-success table-striped-columns table-responsive table-bordered"
@@ -224,10 +224,10 @@
 
                                         <span> {{ Tour.seat }}</span>
                                         <br />
-                                        <!-- <i class="fa-solid fa-arrow-trend-down"></i>
+                                        <i class="fa-solid fa-arrow-trend-down"></i>
 
                                         {{ Tour.discount || 0 }} %
-                                        <br /> -->
+                                        <br />
                                         
                                         Giá mua:
                                         <span>
@@ -240,7 +240,7 @@
                                         }}</span>
                                         <br/>
                                         <span class="text-decoration-underline me-2">
-                                            Số vé còn lại :
+                                            Số vé còn lại:
                                         </span>
                                         {{ Tour.slot }}
                                     </div>
@@ -328,7 +328,7 @@
                     @Tour-deleted="getTours"
                     @hide-modal="getTours"
                 />
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <span class="me-5">Tổng số: {{ totalCount }} Tour</span>
                         <span>
@@ -342,7 +342,7 @@
                         </span>
                     </div>
                     <div></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -358,10 +358,10 @@ const selectedTourId = ref(null);
 const editTourData = ref({});
 const isEditMode = ref(false);
 const User = ref([]);
-const pageNumber = ref(1);
-const totalPage = ref(0);
-const totalCount = ref(0);
-const pageSize = ref(10);
+// const pageNumber = ref(1);
+// const totalPage = ref(0);
+// const totalCount = ref(0);
+// const pageSize = ref(10);
 const placeStart = ref('Nơi khởi hành');
 const dateStart = ref('');
 const placeEnd = ref('Nơi kết thúc');
@@ -381,20 +381,28 @@ const isLocal2 = ref(true);
 /**
  * get all Tours
  */
+// const getTours = async () => {
+//     try {
+//         var response = await api.get(
+//             `/Tour/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+//         );
+//         Tours.value = response.data.responseData.data;
+//         totalCount.value = response.data.responseData.pagination.totalCount;
+//         totalPage.value = response.data.responseData.pagination.totalPage;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 const getTours = async () => {
     try {
         var response = await api.get(
-            `/Tour/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+            `/Tour/GetAllTour`,null
         );
-        Tours.value = response.data.responseData.data;
-        totalCount.value = response.data.responseData.pagination.totalCount;
-        totalPage.value = response.data.responseData.pagination.totalPage;
+        Tours.value = response.data.responseData;
     } catch (err) {
         console.log(err);
     }
 };
-
-;
 
 /**
  * delete Tour
@@ -430,10 +438,10 @@ onMounted(async () => {
         console.log(err);
     }
 });
-// onMounted(async () => {
-//     await getTours();
-//     await fetchData();
-// })
+onMounted(async () => {
+    await getTours();
+    await fetchData();
+})
 /**
  * Search
  * @param {} date
@@ -542,18 +550,18 @@ const reloadTourList = async () => {
 /**
  * Pagination
  */
-const nextPage = () => {
-    pageNumber.value++;
-    getTours();
-};
-const previousPage = () => {
-    pageNumber.value--;
-    getTours();
-};
-const setPage = (number) => {
-    pageNumber.value = number;
-    getTours();
-};
+// const nextPage = () => {
+//     pageNumber.value++;
+//     getTours();
+// };
+// const previousPage = () => {
+//     pageNumber.value--;
+//     getTours();
+// };
+// const setPage = (number) => {
+//     pageNumber.value = number;
+//     getTours();
+// };
 // const filteredCountries = computed(() => {
 //     // Nếu tour là nước ngoài, loại bỏ Việt Nam khỏi danh sách
 //     if (!Tour.value.isLocal) {

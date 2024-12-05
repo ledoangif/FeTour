@@ -87,7 +87,7 @@
                             <span class="fw-bold">{{ Tour.placeStart }}</span>
                         </div>
                         <div class="mt-2">
-                            Số chỗ còn nhận : <span class="fw-bold">{{ Tour.slot }}</span>
+                            Số chỗ còn nhận: <span class="fw-bold">{{ Tour.slot }}</span>
                         </div>
                     </div>
                 </div>

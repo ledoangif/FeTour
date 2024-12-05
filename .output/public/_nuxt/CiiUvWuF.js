@@ -1,0 +1,1 @@
+import{a8 as s,a9 as u}from"./-qx6OsVB.js";const c=s((e,i,t)=>{const a=e.path.includes("/tour")||e.path.includes("/account")||e.path.includes("/booking")||e.path.includes("/dashboard")||e.path.includes("/country")||e.path.includes("/customer")||e.path.includes("/hotel")||e.path.includes("/profile")||e.path.includes("/tourhotel"),n=u();n.isAdminPage=a});export{c as default};

@@ -51,19 +51,16 @@
                         <div class="row">
                             <ul class="col-6 links" v-for="item in Top4Country">
                                 <li>
-                                    <a
-                                        href="#choose"
-                                        class="scroll"
-                                        @click.prevent="selectCountry(item.id)"
+                                    <p class="scroll"
                                         >{{ item.countryName }}
-                                    </a>
+                                </p>
                                 </li>
                             </ul>
                             <ul class="col-6 links" v-for="item in Top6Country">
                                 <li>
-                                    <a href="#" @click.prevent="selectCountry(item.id)"
+                                    <p class="scroll"
                                         >{{ item.countryName }}
-                                    </a>
+                                    </p>
                                 </li>
                             </ul>
                         </div>

@@ -32,7 +32,7 @@
                                 </svg>
                                 Tìm kiếm
                             </button>
-                            <button
+                            <!-- <button
                                 class="btn btn-sm btn-outline-primary"
                                 type="reset"
                                 @click="resetSearchForm()"
@@ -49,7 +49,7 @@
                                     />
                                 </svg>
                                 Xóa Form
-                            </button>
+                            </button> -->
                         </span>
                     </div>
                 </form>
@@ -81,7 +81,7 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="reload">
+                    <!-- <div class="reload">
                         <a class="text-info" href="#" @click="getCountrys()">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@
                                 />
                             </svg>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <table
                     class="table text-center table-hover table-success table-striped-columns"
@@ -186,7 +186,7 @@
                     @Country-deleted="getCountrys"
                     @hide-modal="getCountrys()"
                 />
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <span class="me-5">Tổng số: {{ totalCount }} quốc gia</span>
                         <span>
@@ -200,7 +200,7 @@
                         </span>
                     </div>
                     <div></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -233,19 +233,29 @@ if (process.client) {
 /**
  * get all Countrys
  */
+// const getCountrys = async () => {
+//     try {
+//         var response = await api.get(
+//             `/Country/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+//         );
+//         Countrys.value = response.data.responseData.data;
+//         totalCount.value = response.data.responseData.pagination.totalCount;
+//         totalPage.value = response.data.responseData.pagination.totalPage;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 const getCountrys = async () => {
     try {
         var response = await api.get(
-            `/Country/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+            `/Country`,null
         );
-        Countrys.value = response.data.responseData.data;
-        totalCount.value = response.data.responseData.pagination.totalCount;
-        totalPage.value = response.data.responseData.pagination.totalPage;
+        Countrys.value = response.data.responseData;
+        
     } catch (err) {
         console.log(err);
     }
 };
-
 const deleteCountry = async (id) => {
     try {
         selectedCountryId.value = id;

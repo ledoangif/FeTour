@@ -94,14 +94,14 @@ export default defineNuxtPlugin(() => {
         const end = new Date(value);
         return end > start || 'Ngày kết thúc phải lớn hơn ngày bắt đầu';
     });
-    // defineRule('MustPositive', (value: string) => {
-    //     const number = parseFloat(value);
-    //     if (isNaN(number) && value != null && number <=0  ) {
-    //         return 'Trường này phải là nguyên dương!';
-    //     }
+    defineRule('paymentedLimit', (value: number, [totalBill]: [number]) => {
+        // Nếu trạng thái là "Khách hàng hủy", kiểm tra nếu giá trị paymented > totalBill
+        if (value > totalBill) {
+            return 'Số tiền thanh toán không được lớn hơn tổng tiền';
+        }
+        return true;
+    });
 
-    //     return true;
-    // });
 
 
 

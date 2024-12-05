@@ -431,6 +431,12 @@ const showCustmomer = () => {
     showKH.value = !showKH.value;
 };
 const updateBooking = async () => {
+    if (Booking.value.paymented > Booking.value.totalBill) {
+    // Nếu số tiền thanh toán vượt quá tổng tiền, hiển thị cảnh báo
+    alert('Số tiền thanh toán không được vượt quá tổng tiền.');
+    Booking.value.paymented = Booking.value.totalBill;  // Đặt lại giá trị của paymented về totalBill
+    return;
+    } 
     const data = {
         tourId: Booking.value.tourId,
         customerId: Booking.value.customerId,
@@ -505,8 +511,9 @@ const handleSubmit = () => {
 };
 const isDisabled=(status) => {
             return status === Tour_constants.Cancel ||
-                   //status === Tour_constants.UnPaid ||
+                   status === Tour_constants.Paid ||
                    status===Tour_constants.Deposited||
+                   status===Tour_constants.success||
                 //    status===Tour_constants.Customercancel||
                    status === Tour_constants.Pending;
         }
@@ -524,5 +531,18 @@ watch(
         }
     },
     { immediate: true },
+);
+watch(
+    () => Booking.value.statusBill,
+    (newStatus) => {
+        if (newStatus === 'Đã thanh toán') {  // Khi chọn "Đã thanh toán"
+            Booking.value.paymented = Booking.value.totalBill;  // Gán paymented = totalBill
+        } else if (newStatus === 'Đã đặt cọc' || newStatus === 'Hủy') {  // Khi chọn "Đặt cọc" hoặc "Hủy"
+            Booking.value.paymented = 100000;  // Gán paymented = 100000
+        } else if (newStatus === 'Chờ xử lý') {  // Khi chọn "Chờ xử lý"
+            Booking.value.paymented = 0;  // Gán paymented = 0
+        }
+    },
+    { immediate: true }
 );
 </script>

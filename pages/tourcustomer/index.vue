@@ -129,7 +129,7 @@
             <p class="text mt-2 mb-5 text-center">
                 Những trải nghiệm tuyệt vời trong tour sẽ không làm bạn thất vọng
             </p>
-            <div class="d-flex flex-row col-6 my-3 ms-auto justify-content-end">
+            <!-- <div class="d-flex flex-row col-6 my-3 ms-auto justify-content-end">
                 <i
                     class="fa-solid fa-arrow-down-wide-short mt-1 me-2"
                     @click="sortToursByPriceDescending"
@@ -167,7 +167,7 @@
                 >
                     <i class="fa-solid fa-arrows-rotate"></i>
                 </button>
-            </div>
+            </div> -->
             <div class="row" id="displayTours">
                 <div class="col-lg-4 col-sm-6 mb-5" v-for="item in Tour">
                     <div class="image-tour position-relative">
@@ -178,10 +178,13 @@
                         />
                     </div>
                     <div class="package-info" style="height: 350px">
-                        <span
+                        <!-- <span
                             >{{ formatDate(item.dateStart) }} - {{ item.numOfDay }} ngày
+                        </span> -->
+                        <span
+                            >{{ formatDate(item.dateStart) }} ->
+                            {{ formatDate(item.dateEnd) }} - {{ item.numOfDay }} ngày
                         </span>
-
                         <h5 class="mt-2">
                             <a>{{ item.nameTour }}</a>
                         </h5>
@@ -249,9 +252,15 @@
                                 >
                                     Ngày khác
                                 </button> -->
-                                <div class="pt-2">
+                                <!-- <div class="pt-2">
                                     <span class="text-decoration-underline me-2">
-                                        Số chỗ còn nhận :
+                                        Số chỗ còn nhận:
+                                    </span>
+                                    {{item.slot }}
+                                </div> -->
+                                <div class="d-flex mt-2 justify-content-end mt-2">
+                                    <span class="text-decoration-underline me-2">
+                                        Số chỗ còn nhận:
                                     </span>
                                     {{ item.slot }}
                                 </div>
@@ -262,7 +271,7 @@
             </div>
             <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center">
-                    <span class="me-5">Tổng số: {{ totalCount }} Tour</span>
+                    <!-- <span class="me-5">Tổng số: {{ totalCount }} Tour</span> -->
                     <span>
                         <Pagination
                             :current-page="pageNumber"
@@ -310,6 +319,16 @@ const getTours = async () => {
         console.log(err);
     }
 };
+// const getTours = async () => {
+//     try {
+//         var response = await api.get(
+//             `/Tour/GetAllTourOndeDaybeforeStart`,null
+//         );
+//         Tour.value = response.data.responseData;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 
 onMounted(async () => {
     try {

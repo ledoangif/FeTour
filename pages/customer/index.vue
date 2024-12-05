@@ -32,7 +32,7 @@
                                 </svg>
                                 Tìm kiếm
                             </button>
-                            <button
+                            <!-- <button
                                 class="btn btn-sm btn-outline-primary"
                                 type="reset"
                                 @click="resetSearchForm()"
@@ -49,7 +49,7 @@
                                     />
                                 </svg>
                                 Xóa Form
-                            </button>
+                            </button> -->
                         </span>
                     </div>
                 </form>
@@ -63,7 +63,7 @@
                     />
                     
 
-                    <div class="reload">
+                    <!-- <div class="reload">
                         <a class="text-info" href="#" @click="getCustomers()">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@
                                 />
                             </svg>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <table
                     class="table text-center table-hover table-success table-striped-columns"
@@ -189,7 +189,7 @@
                     @Customer-deleted="getCustomers"
                     @hide-modal="getCustomers"
                 />
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <span class="me-5">Tổng số: {{ totalCount }} Khách hàng</span>
                         <span>
@@ -203,7 +203,7 @@
                         </span>
                     </div>
                     <div></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -232,19 +232,29 @@ const pageSize = ref(10);
 /**
  * get all Customers
  */
+// const getCustomers = async () => {
+//     try {
+//         var response = await api.get(
+//             `/Customer/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+//         );
+//         Customers.value = response.data.responseData.data;
+//         totalCount.value = response.data.responseData.pagination.totalCount;
+//         totalPage.value = response.data.responseData.pagination.totalPage;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 const getCustomers = async () => {
     try {
         var response = await api.get(
-            `/Customer/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+            `/Customer`,null,
         );
-        Customers.value = response.data.responseData.data;
-        totalCount.value = response.data.responseData.pagination.totalCount;
-        totalPage.value = response.data.responseData.pagination.totalPage;
+        Customers.value = response.data.responseData;
+        
     } catch (err) {
         console.log(err);
     }
 };
-
 
 /**
  * delete Customer

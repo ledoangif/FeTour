@@ -350,9 +350,9 @@
                             </div>
                             <div class="d-flex mt-2 justify-content-end mt-2">
                                 <span class="text-decoration-underline me-2">
-                                    Số chỗ còn nhận :
+                                    Số chỗ còn nhận:
                                 </span>
-                                {{ item.slot }}
+                                 {{ item.slot }}
                             </div>
                         </ul>
                     </div>
@@ -360,7 +360,7 @@
             </div>
         </div>
     </section>
-    <section class="destinations py-5" id="destinations">
+    <!-- <section class="destinations py-5" id="destinations">
         <div class="container py-xl-5 py-lg-3">
             <h3 class="heading text-capitalize text-center">Điểm đến phổ biến</h3>
             <p class="text mt-2 mb-5 text-center">
@@ -394,7 +394,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <Footer />
 </template>
 <script setup>

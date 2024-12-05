@@ -1,0 +1,1 @@
+import{a8 as o,N as r}from"./-qx6OsVB.js";const u=o((n,a)=>{const e=r();{const t=localStorage.getItem("token");if(!t||typeof t!="string"||t.trim()===""){e.push("/login").then();return}}});export{u as default};

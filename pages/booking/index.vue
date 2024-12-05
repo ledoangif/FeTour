@@ -32,7 +32,8 @@
                                 </svg>
                                 Tìm kiếm
                             </button>
-                            <button
+                            
+                            <!-- <button
                                 class="btn btn-sm btn-outline-primary"
                                 type="reset"
                                 @click="resetSearchForm()"
@@ -49,10 +50,15 @@
                                     />
                                 </svg>
                                 Xóa Form
-                            </button>
+                            </button> -->
                         </span>
                     </div>
                 </form>
+            </div>
+            <div class="d-flex mt-3">
+                <button class="btn btn-warning ms-auto" @click="GetBookingDeposited">
+                    Đơn đã đặt cọc
+                </button>
             </div>
             <div class="data">
                 <div class="btn-handle d-flex justify-content-end mb-3">
@@ -62,7 +68,7 @@
                         @Booking-saved="getInfor"
                     />
                    
-                    <div class="reload">
+                    <!-- <div class="reload">
                         <a class="text-info" href="#" @click="getBookings()">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +82,7 @@
                                 />
                             </svg>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <table
                     :key="Bookings.length" class="table text-center table-hover table-success table-striped-columns"
@@ -247,7 +253,7 @@
                     @Booking-deleted="getBookings"
                     @hide-modal="getBookings"
                 />
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <span class="me-5">Tổng số: {{ totalCount }} đơn đặt</span>
                         <span>
@@ -261,7 +267,7 @@
                         </span>
                     </div>
                     <div></div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -293,20 +299,40 @@ definePageMeta({
     middleware: ['auth','admin'],
 });
 
+// const getBookings = async () => {
+//     try {
+//         var response = await api.get(
+//             `/Booking/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+//         );
+//         Bookings.value = response.data.responseData.data;
+//         console.log(  Bookings.value)
+//         totalCount.value = response.data.responseData.pagination.totalCount;
+//         totalPage.value = response.data.responseData.pagination.totalPage;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 const getBookings = async () => {
     try {
         var response = await api.get(
-            `/Booking/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
+            `/Booking`,null
         );
-        Bookings.value = response.data.responseData.data;
-        console.log(  Bookings.value)
-        totalCount.value = response.data.responseData.pagination.totalCount;
-        totalPage.value = response.data.responseData.pagination.totalPage;
+        Bookings.value = response.data.responseData;
     } catch (err) {
         console.log(err);
     }
 };
-
+const GetBookingDeposited = async () => {
+    
+    try {
+        //await getInfor();
+        var resp = await api.get(`/Booking/GetBookingDeposited`, null
+    );
+    Bookings.value = resp.data.responseData;
+    }catch(err){
+        console.log(err)
+    }
+};
 const getInfor =  async() =>
 {
     const res = await api.get(`/Customer`, null);
@@ -361,14 +387,14 @@ const BookingEdit = async (Booking) => {
     }
 };
 
-const resetSearchForm = async () => {
-    try {
-        searchString.value = '';
-       await getInfor();
-    } catch (err) {
-        console.log(err);
-    }
-};
+// const resetSearchForm = async () => {
+//     try {
+//         searchString.value = '';
+//        await getInfor();
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 
 
  const search = async () => {
@@ -387,18 +413,18 @@ const resetSearchForm = async () => {
     }
 };
 
-const nextPage = () => {
-    pageNumber.value++;
-    getInfor();
-};
-const previousPage = () => {
-    pageNumber.value--;
-    getInfor();
-};
-const setPage = (number) => {
-    pageNumber.value = number;
-    getInfor();
-};
+// const nextPage = () => {
+//     pageNumber.value++;
+//     getInfor();
+// };
+// const previousPage = () => {
+//     pageNumber.value--;
+//     getInfor();
+// };
+// const setPage = (number) => {
+//     pageNumber.value = number;
+//     getInfor();
+// };
 
 
 </script>

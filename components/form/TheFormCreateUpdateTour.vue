@@ -417,6 +417,7 @@ const createTour = () => {
         formData2.append('meetingPoint', Tour.value.meetingPoint);
         api.postAPI('/Tour/InsertTour', formData2)
         emits('Tour-saved');
+        
         toast.success('Thêm thành công!');
         document.getElementById('closeModalButton').click();
     }catch (error) {
