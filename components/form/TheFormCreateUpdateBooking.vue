@@ -517,6 +517,7 @@ const isDisabled=(status) => {
                 //    status===Tour_constants.Customercancel||
                    status === Tour_constants.Pending;
         }
+
 watch(
     () => props.editBooking,
     (newVal) => {

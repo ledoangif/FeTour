@@ -391,7 +391,6 @@ onMounted(async () => {
     await fetchData();
 })
 const createTour = () => {
-    try{
         const formData2 = new FormData();
         formData2.append('nameTour', Tour.value.nameTour);
         formData2.append('descripttion', Tour.value.descripttion);
@@ -415,14 +414,21 @@ const createTour = () => {
         formData2.append('placeEnd', Tour.value.placeEnd);
         formData2.append('place', Tour.value.place);
         formData2.append('meetingPoint', Tour.value.meetingPoint);
-        api.postAPI('/Tour/InsertTour', formData2)
-        emits('Tour-saved');
-        
-        toast.success('Thêm thành công!');
-        document.getElementById('closeModalButton').click();
-    }catch (error) {
+        const tour= api.postAPI('/Tour/InsertTour', formData2)
+        .then((res)=>{
+            // if (tour.status === 200) {
+            // if (tour.data && tour.data.message) {
+            //     // Hiển thị thông báo thành công
+            //     toast.success(tour.data.message);  // Hiển thị thông báo với toast (thành công)
+            //     }
+            // }
+            emits('Tour-saved');
+            toast.success('Thêm thành công!');
+            document.getElementById('closeModalButton').click();
+        })
+        .catch ((error)=> {
         console.error('Error creating Tour:', error);
-    }
+    })
 };
 
 // /** update Tour */

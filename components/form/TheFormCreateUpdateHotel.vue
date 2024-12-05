@@ -246,13 +246,14 @@ const createHotel = () => {
     formData.append('hotline', Hotel.value.hotline);
     const hotel= api.postAPI('/Hotel', formData)
         .then((res) => {
-            if (hotel.status === 200) {
-            if (hotel.data && hotel.data.message) {
-                // Hiển thị thông báo thành công
-                toast.success(hotel.data.message);  // Hiển thị thông báo với toast (thành công)
-                }
-            }
+            // if (hotel.status === 200) {
+            // if (hotel.data && hotel.data.message) {
+            //     // Hiển thị thông báo thành công
+            //     toast.success(hotel.data.message);  // Hiển thị thông báo với toast (thành công)
+            //     }
+            // }
             emits('Hotel-saved');
+            toast.success('Thêm thành công!');
             document.getElementById('closeModalButton').click();
         })
         .catch((error) => {
