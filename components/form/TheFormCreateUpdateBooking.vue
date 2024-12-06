@@ -12,7 +12,8 @@
                 <span v-else>
                     <slot name="header">
                         <div>
-                            <span>Cập nhật Booking du lịch</span> <button type="button" class="btn btn-success ms-5" @click="showCustmomer">Cập nhật khách hàng</button>
+                            <!-- <span>Cập nhật Booking du lịch</span> <button type="button" class="btn btn-success ms-5" @click="showCustmomer">Cập nhật khách hàng</button> -->
+                            <span>Cập nhật Booking du lịch</span>
                         </div>
                     </slot>
                     
@@ -171,7 +172,7 @@
                     </div>
                     <div class="row col-lg-6 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
-                            <label
+                            <!-- <label
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
                             >
@@ -185,10 +186,25 @@
                                     class="form-control"
                                     disabled
                                 />
+                            </div> -->
+                            <label
+                                for="source-name"
+                                class="col-sm-4 col-form-label control-label text-end"
+                            >
+                                Tên tour
+                            </label>
+                            <div class="col-sm-8">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    :value="tourName"
+                                    disabled
+                                    style="height: 38px; padding: 0.375rem 0.75rem;"
+                                />
                             </div>
                         </div>
                         <div class="row form-group required">
-                            <label
+                            <!-- <label
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
                             >
@@ -204,6 +220,22 @@
                                     disabled
                                 />
                                 <br />
+                            </div> -->
+                            <label
+                                for="source-name"
+                                class="col-sm-4 col-form-label control-label text-end"
+                            >
+                                Tên khách hàng
+                            </label>
+                            <div class="col-sm-8">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    :value="customerName"
+                                    disabled
+                                    style="height: 38px; padding: 0.375rem 0.75rem;"
+                                />
+                                <br/>
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -374,7 +406,8 @@ const form = ref(null);
 const emits = defineEmits(['Booking-saved']);
 const meetingPoint = ref({});
 const showKH = ref(false);
-
+const Customer = ref([]);
+const Tour = ref([]);
 /** received data */
 const props = defineProps({
     editBooking: {
@@ -395,6 +428,28 @@ const statusBill = [
     { id: 4, value: 'Chờ xử lý' },
     { id: 5, value:'Khách hàng hủy'},
 ];
+const getInfor =  async() =>
+{
+    const res = await api.get(`/Customer`, null);
+    Customer.value = res.data.responseData;
+    const resTour = await api.get(`/Tour/GetAllTour`, null);
+    Tour.value = resTour.data.responseData;
+}
+onMounted(async () => {
+    try {
+        await getInfor();
+    } catch (error) {
+        console.error('Error fetching initial data:', error);
+    }
+});
+const customerName = computed(() => {
+    const customer = Customer.value.find(item => item.id === Booking.value.customerId);
+    return customer ? customer.nameCustomer : "Không tìm thấy";
+});
+const tourName = computed(() => {
+    const tour = Tour.value.find(item => item.id === Booking.value.tourId);
+    return tour ? tour.nameTour : "Không tìm thấy";
+});
 
 const defaultBooking = {
     tourId: '',

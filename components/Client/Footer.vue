@@ -42,7 +42,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div
+                    <!-- <div
                         class="col-lg-3 col-sm-6 mt-lg-0 mt-4 footer-grid_section_1its_w3"
                     >
                         <div class="footer-title">
@@ -64,7 +64,34 @@
                                 </li>
                             </ul>
                         </div>
+                    </div> -->
+                    <div
+                        class="col-lg-3 col-sm-6 mt-lg-0 mt-4 footer-grid_section_1its_w3"
+                    >
+                        <div class="footer-title">
+                            <h3>Thông Tin Cần Biết</h3>
+                        </div>
+                        <div class="footer-links">
+                            <ul>
+                                <li>
+                                    <p>
+                                        Điều kiện & Điều khoản
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        Chính sách giá tốt
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        Câu hỏi thường gặp
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+
                     <div
                         class="col-lg-3 col-sm-6 mt-lg-0 mt-4 footer-grid_section_1its_w3"
                     >
@@ -99,7 +126,7 @@
         <div class="copyright py-3 text-center">
         <p>
             © 2024 Hachu Travel. All Rights Reserved | Design by
-            <a href="http://w3layouts.com/" target="=_blank"> Doan </a>
+            <a href="#home" target="=_blank"> Doan </a>
         </p>
     </div>
     <div class="move-top text-right">

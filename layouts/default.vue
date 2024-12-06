@@ -21,7 +21,7 @@
             <div class="col-lg d-flex justify-content-end">
                 <div class="text-black fs-5 me-0 align-content-center">
                 <i class="fa-solid fa-bell text-primary fs-5 mt-2 me-3 position-relative"></i>
-               <span class="position-absolute  customCountPending">{{ CountPendingBooking }}</span>
+               <span class="position-absolute "></span>
                     Hello, <span class="fw-bold">{{ userFullName }}</span>
                 </div>
                 <div class="dropdown btn">

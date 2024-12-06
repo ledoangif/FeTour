@@ -312,16 +312,27 @@ definePageMeta({
 //         console.log(err);
 //     }
 // };
+// const getBookings = async () => {
+//     try {
+//         var response = await api.get(
+//             `/Booking`,null
+//         );
+//         Bookings.value = response.data.responseData;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 const getBookings = async () => {
     try {
         var response = await api.get(
-            `/Booking`,null
+            `/Booking/GetBookingall`,null
         );
         Bookings.value = response.data.responseData;
     } catch (err) {
         console.log(err);
     }
 };
+
 const GetBookingDeposited = async () => {
     
     try {

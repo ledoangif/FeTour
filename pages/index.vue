@@ -118,7 +118,7 @@
                     />
                 </div>
             </div>
-            <div class="row mt-5 text-center">
+            <!-- <div class="row mt-5 text-center">
                 <div class="col-lg-3 col-6">
                     <div class="counter">
                         <span class="fa fa-smile-o"></span>
@@ -153,7 +153,7 @@
                         <p class="count-text text-uppercase">Kinh nghiệm</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <div class="row" style="padding-left: 10%">
