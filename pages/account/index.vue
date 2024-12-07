@@ -241,8 +241,6 @@ const account = ref(0);
 const api = new Api();
 definePageMeta({
     middleware: ['admin','auth','auth-admin'],
-
-
 });
 
 export default defineComponent({

@@ -507,22 +507,22 @@ const updateBooking = async () => {
         updateDate: new Date(),
         id: props.editBooking.id,
     };
-    const dataCustomer = {
-        nameCustomer: Booking.value.nameCustomer,
-        phoneNumber: Booking.value.phoneNumber,
-        identityCard: Booking.value.identityCard,
-        address: Booking.value.address,
-        email: Booking.value.email,
-        accountBank:Booking.value.accountBank,
-        gender: Booking.value.gender,
-        bankName: Booking.value.bankName,
-        id : props.editBooking.customerId,
-    }
+    // const dataCustomer = {
+    //     nameCustomer: Booking.value.nameCustomer,
+    //     phoneNumber: Booking.value.phoneNumber,
+    //     identityCard: Booking.value.identityCard,
+    //     address: Booking.value.address,
+    //     email: Booking.value.email,
+    //     accountBank:Booking.value.accountBank,
+    //     gender: Booking.value.gender,
+    //     bankName: Booking.value.bankName,
+    //     id : props.editBooking.customerId,
+    // }
     try {
-        if(showKH.value == true)
-        {
-           await api.putAPI(`/Customer/${props.editBooking.customerId}`,dataCustomer);
-        }
+        // if(showKH.value == true)
+        // {
+        //    await api.putAPI(`/Customer/${props.editBooking.customerId}`,dataCustomer);
+        // }
         const booking=await api.putAPI(`/Booking/${props.editBooking.id}`, data);
         if (booking.status === 200) {
             if (booking.data && booking.data.message) {

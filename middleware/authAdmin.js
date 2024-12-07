@@ -7,11 +7,12 @@ export default defineNuxtRouteMiddleware((to, from) => {
             const role = localStorage.getItem('role');
             const jwtToken = localStorage.getItem('token');
             if (typeof jwtToken !== 'string' || jwtToken.trim() === '') {
-                router.push('/login').then();
-                return;
+                return navigateTo('/login');
+                //return;
             }
             if (role !== 'Admin') {
 
+                router.push('/not-authorized').then();
                 return;
             }
         }
