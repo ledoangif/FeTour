@@ -28,25 +28,34 @@
             <td>{{ orderDescription }}</td>
           </tr>
           <tr>
+            <td>Tên khách hàng</td>
+            <td>{{ customerName }}</td>
+          </tr>
+          <tr>
+            <td>Tên tour</td>
+            <td>{{ tourName }}</td>
+          </tr>
+          <tr>
             <td>Mã giao dịch</td>
             <td>{{ transactionId }}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td>ID đơn hàng</td>
             <td>{{ orderId }}</td>
-          </tr>
+          </tr> -->
           <tr>
             <td>Số tiền đặt cọc</td>
-            <td>100.000 vnd</td>
+            <!-- <td>100.000 vnd</td> -->
+             <td>{{ depositAmount }}</td>
           </tr>
           <!-- <tr>
             <td>Phương thức thanh toán</td>
             <td>{{ paymentMethod }}</td>
           </tr> -->
-          <tr>
+          <!-- <tr>
             <td>ID thanh toán</td>
             <td>{{ paymentId }}</td>
-          </tr>
+          </tr> -->
           <!-- <tr>
             <td>Mã phản hồi VnPay</td>
             <td>{{ vnPayResponseCode }}</td>
@@ -88,7 +97,8 @@ const paymentMethod = ref('')
 const paymentId = ref('')
 const vnPayResponseCode = ref('')
 const tourName = ref('') // Thêm biến này để chứa tên tour
-
+const customerName = ref('');
+const depositAmount = ref(0);  // Đảm bảo bạn khai báo đúng
 onMounted(async () => {
   const params = route.query
 
@@ -103,6 +113,19 @@ onMounted(async () => {
   // Nếu thanh toán thành công, gọi hàm để cập nhật trạng thái booking
   if (isSuccess.value && orderDescription.value) {
     const bookingId = parseInt(orderDescription.value, 10); // Chuyển đổi thành số nguyên
+      const response = await api.get(`/Booking/GetBookingDetails?bookingId=${bookingId}`);
+      if (response.status === 200) {
+        console.log('Thanh cong:', response.data);
+        let bookingDetails = response.data;
+        customerName.value = bookingDetails.customerName || 'Không rõ';
+        tourName.value = bookingDetails.tourName || 'Không rõ';
+        depositAmount.value = bookingDetails.depositAmount || 0;
+        
+      console.log('Số tiền đặt cọc:', bookingDetails.value);
+
+        console.log('Tên khách hàng:', customerName.value);
+        console.log('Tên tour:', tourName.value);
+      } 
     await updateBookingStatus(bookingId); // Gọi API để cập nhật trạng thái
   }
 })

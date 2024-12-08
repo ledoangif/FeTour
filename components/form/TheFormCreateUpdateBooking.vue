@@ -425,7 +425,7 @@ const statusBill = [
     { id: 1, value: 'Đã thanh toán' },
     { id: 2, value: 'Đã đặt cọc' },
     { id: 3, value: 'Hủy' },
-    //{ id: 4, value: 'Chờ xử lý' },
+    { id: 4, value: 'Chờ xử lý' },
     { id: 5, value:'Khách hàng hủy'},
 ];
 const getInfor =  async() =>
@@ -459,7 +459,7 @@ const defaultBooking = {
     paymentBy: '',
     child: '',
     adult: '',
-    statusBill: 'Chờ xử lý',
+    statusBill: 'Lưu tạm',
     customerInTours: '',
     id: '',
     nameCustomer: '',
@@ -595,9 +595,9 @@ watch(
         if (newStatus === 'Đã thanh toán') {  // Khi chọn "Đã thanh toán"
             Booking.value.paymented = Booking.value.totalBill;  // Gán paymented = totalBill
         } else if (newStatus === 'Đã đặt cọc' || newStatus === 'Hủy') {  // Khi chọn "Đặt cọc" hoặc "Hủy"
-            Booking.value.paymented = 100000;  // Gán paymented = 100000
-        // } else if (newStatus === 'Chờ xử lý') {  // Khi chọn "Chờ xử lý"
-        //     Booking.value.paymented = 0;  // Gán paymented = 0
+            Booking.value.paymented = 100000 * (Booking.value.adult + Booking.value.child);
+         } else if (newStatus === 'Chờ xử lý') {  // Khi chọn "Chờ xử lý"
+             Booking.value.paymented = 0;  // Gán paymented = 0
         }
     },
     { immediate: true }

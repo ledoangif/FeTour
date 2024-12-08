@@ -56,8 +56,8 @@
                 </form>
             </div>
             <div class="d-flex mt-3">
-                <button class="btn btn-warning ms-auto" @click="GetBookingDeposited">
-                    Đơn đã đặt cọc
+                <button class="btn btn-secondary ms-auto" @click="GetBookingPending"> 
+                    Đơn chờ xử lý
                 </button>
             </div>
             <div class="data">
@@ -225,9 +225,11 @@
                                         </svg>
                                     </NuxtLink>
                                     <NuxtLink
+                                        
                                         class="link link-danger text-decoration-none mx-1"
                                         style="cursor: pointer"
                                         @click="deleteBooking(Booking.id)"
+                                        
                                         data-bs-toggle="modal"
                                         data-bs-target="#deleteBookingModal"
                                     >
@@ -333,11 +335,11 @@ const getBookings = async () => {
     }
 };
 
-const GetBookingDeposited = async () => {
+const GetBookingPending = async () => {
     
     try {
         //await getInfor();
-        var resp = await api.get(`/Booking/GetBookingDeposited`, null
+        var resp = await api.get(`/Booking/GetBookingPending`, null
     );
     Bookings.value = resp.data.responseData;
     }catch(err){

@@ -163,7 +163,8 @@ const handleSubmit = async () => {
             ...currentCustomerData, // Retain all existing fields
             nameCustomer,           // Update with new value
             //phoneNumber,            // Update with new value
-            address,                // Update with new value
+            address,
+            isDeleted: false,
             //email,                  // Update with new value
             id: customerId,         // Ensure ID is included for the PUT request
         };
@@ -213,7 +214,7 @@ const handleSubmit = async () => {
         formData2.append('paymentTime', localTime);
         formData2.append('child', countChild);
         formData2.append('adult', countAdult);
-        formData2.append('statusBill', 'Chờ xử lý');
+        formData2.append('statusBill', 'Lưu tạm');
         formData2.append('customerinTours', JSON.stringify(listCustomer));
 
         const response = await api.postAPI(`/Booking/InsertBooking`, formData2);

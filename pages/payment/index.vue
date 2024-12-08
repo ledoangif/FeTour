@@ -37,7 +37,7 @@
           <label for="amount">Số tiền</label>
           <input v-model="amount" id="amount" class="form-control" type="number" readonly />
           <!-- Đặt thuộc tính readonly để không cho phép người dùng thay đổi -->
-          <p style="color: #dc3545; font-weight: normal;">Số tiền đặt cọc mặc định là 100,000 VND. </p>
+          <p style="color: #dc3545; font-weight: normal;">Số tiền đặt cọc mặc định là 100,000 VND / 1 vé. </p>
           <p style="color: #dc3545; font-weight: normal;">Lưu ý : Không hoàn lại tiền đặt cọc</p>
         </div>
         <button type="submit" class="btn btn-primary">Thanh toán</button>
@@ -55,16 +55,23 @@ import Api from '../../service/Base/api';
 
 const orderType = ref('payment');
 const bookingId = ref(''); // Khởi tạo bookingId
-const amount = ref(100000); // Khởi tạo số tiền
+const amount = ref(0); // Khởi tạo số tiền
 const description = ref(''); // Khởi tạo description
 
 const api = new Api();
 const route = useRoute();
 
-onMounted(() => {
+onMounted(async() => {
   const id = route.query.bookingId || ''; // Lấy giá trị BookingId từ query
   bookingId.value = id; // Gán BookingId
   description.value = `Thanh toán đặt cọc cho mã booking: ${id}`; // Gán mô tả với BookingId
+
+  const response = await api.get(`/Booking/GetBookingDetails?bookingId=${bookingId.value}`);
+  if (response.status === 200) {
+    const bookingDetails = response.data;
+    amount.value = bookingDetails.depositAmount || 0; // Lấy số tiền từ API
+}
+
 });
 
 const submitPayment = async () => {
