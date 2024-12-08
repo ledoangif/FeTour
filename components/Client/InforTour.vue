@@ -152,19 +152,21 @@ const handleSubmit = async () => {
         console.log(existingCustomer);
 
         let customerId;
-
+        
         if (existingCustomer.length >0) {
             // Customer exists, update their information
             customerId = existingCustomer[0].id;
             console.log(customerId)
+            const customerDetailResponse = await api.get(`/Customer/${customerId}`);
+            const currentCustomerData = customerDetailResponse.data.responseData;
             const data = {
-                nameCustomer,
-                phoneNumber,
-                address,
-                email,
-                id: customerId,
-            };
-
+            ...currentCustomerData, // Retain all existing fields
+            nameCustomer,           // Update with new value
+            //phoneNumber,            // Update with new value
+            address,                // Update with new value
+            //email,                  // Update with new value
+            id: customerId,         // Ensure ID is included for the PUT request
+        };
             await api.putAPI(`/Customer/${customerId}`, data);
         } else {
             // Step 3: Add the new customer

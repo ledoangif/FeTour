@@ -425,7 +425,7 @@ const statusBill = [
     { id: 1, value: 'Đã thanh toán' },
     { id: 2, value: 'Đã đặt cọc' },
     { id: 3, value: 'Hủy' },
-    { id: 4, value: 'Chờ xử lý' },
+    //{ id: 4, value: 'Chờ xử lý' },
     { id: 5, value:'Khách hàng hủy'},
 ];
 const getInfor =  async() =>
@@ -489,7 +489,7 @@ const updateBooking = async () => {
     if (Booking.value.paymented > Booking.value.totalBill) {
     // Nếu số tiền thanh toán vượt quá tổng tiền, hiển thị cảnh báo
     alert('Số tiền thanh toán không được vượt quá tổng tiền.');
-    Booking.value.paymented = Booking.value.totalBill;  // Đặt lại giá trị của paymented về totalBill
+    //Booking.value.paymented = Booking.value.totalBill;  // Đặt lại giá trị của paymented về totalBill
     return;
     } 
     const data = {
@@ -501,6 +501,7 @@ const updateBooking = async () => {
         paymentTime: props.editBooking.paymentTime,
         isLocal: Booking.value.isLocal,
         adult: Booking.value.adult,
+        child: Booking.value.child,
         statusBill: Booking.value.statusBill,
         customerInTours: Booking.value.customerInTours,
         createDate: props.editBooking.createDate,
@@ -595,8 +596,8 @@ watch(
             Booking.value.paymented = Booking.value.totalBill;  // Gán paymented = totalBill
         } else if (newStatus === 'Đã đặt cọc' || newStatus === 'Hủy') {  // Khi chọn "Đặt cọc" hoặc "Hủy"
             Booking.value.paymented = 100000;  // Gán paymented = 100000
-        } else if (newStatus === 'Chờ xử lý') {  // Khi chọn "Chờ xử lý"
-            Booking.value.paymented = 0;  // Gán paymented = 0
+        // } else if (newStatus === 'Chờ xử lý') {  // Khi chọn "Chờ xử lý"
+        //     Booking.value.paymented = 0;  // Gán paymented = 0
         }
     },
     { immediate: true }

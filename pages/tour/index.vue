@@ -448,30 +448,32 @@ onMounted(async () => {
  */
 
 const submitSearch = async () => {
-    const queryParams = [];
-
+    const queryParams = []; // Khởi tạo một mảng rỗng để lưu trữ các tham số tìm kiếm.
+    // Kiểm tra và thêm "Nơi khởi hành" vào tham số tìm kiếm nếu hợp lệ.
     if (placeStart.value && placeStart.value !== 'Nơi khởi hành') {
         queryParams.push(`placeStart=${placeStart.value}`);
     }
-
+    // Kiểm tra và thêm "Nơi kết thúc" vào tham số tìm kiếm nếu hợp lệ.
     if (placeEnd.value && placeEnd.value !== 'Nơi kết thúc') {
         if (isNaN(placeEnd.value)) {
-            // If placeEnd is not a number, treat it as a string
+            // Nếu placeEnd không phải là số, xem như một chuỗi
             queryParams.push(`placeEnd=${placeEnd.value}`);
         } else {
-            // If placeEnd is a number, treat it as CountryId
+            // Nếu placeEnd là số, xem như mã quốc gia (CountryId).
             queryParams.push(`CountryId=${placeEnd.value}`);
         }
     }
-
+    // Kiểm tra và thêm ngày bắt đầu (dateStart) vào tham số tìm kiếm nếu được cung cấp.
     if (dateStart.value) {
         queryParams.push(`dateStart=${dateStart.value}`);
     }
+    // Kiểm tra và thêm tên tour (nameTour) vào tham số tìm kiếm nếu được cung cấp.
     if (nameTour.value) {
         queryParams.push(`name=${nameTour.value}`);
     }
-
+    // Tạo chuỗi truy vấn từ mảng queryParams bằng cách nối các phần tử với ký tự `&`.
     const queryString = queryParams.join('&');
+    // Nếu không có tham số tìm kiếm nào được cung cấp, tải lại danh sách tour.
     if (!queryString) {
         reloadTourList();
     } else {

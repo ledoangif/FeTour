@@ -416,26 +416,26 @@ const handleCountrySelect = async (id) => {
     Tour.value = res.data.responseData;
 };
 
-const TourIsLocal = async () => {
-    const res = await api.get(`Tour/GetTourIsLocal`, null);
-    if(res.data.responseData.length === 0)
-    {
-        alert("Không có Tour phù hợp với tìm kiếm của bạn!");
-        return;
-    }
-    Tour.value = res.data.responseData;
-    isLocal2.value = true;
-};
-const TourIsNotLocal = async () => {
-    const res = await api.get(`Tour/GetTourNotIsLocal`, null);
-    if(res.data.responseData.length === 0)
-    {
-        alert("Không có Tour phù hợp với tìm kiếm của bạn!");
-        return;
-    }
-    Tour.value = res.data.responseData;
-    isLocal2.value = false;
-};
+// const TourIsLocal = async () => {
+//     const res = await api.get(`Tour/GetTourIsLocal`, null);
+//     if(res.data.responseData.length === 0)
+//     {
+//         alert("Không có Tour phù hợp với tìm kiếm của bạn!");
+//         return;
+//     }
+//     Tour.value = res.data.responseData;
+//     isLocal2.value = true;
+// };
+// const TourIsNotLocal = async () => {
+//     const res = await api.get(`Tour/GetTourNotIsLocal`, null);
+//     if(res.data.responseData.length === 0)
+//     {
+//         alert("Không có Tour phù hợp với tìm kiếm của bạn!");
+//         return;
+//     }
+//     Tour.value = res.data.responseData;
+//     isLocal2.value = false;
+// };
 
 
 const nextPage = () => {
