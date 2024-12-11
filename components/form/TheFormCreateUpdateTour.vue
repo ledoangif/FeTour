@@ -37,7 +37,7 @@
                                 <br />
                             </div>
                         </div>
-                        <div class="row mb-3 form-group required">
+                        <!-- <div class="row mb-3 form-group required">
                             <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Giá mua
                             </label>
@@ -46,7 +46,7 @@
                                     :rules="{ required: true,cost:true}" />
                                 <ErrorMessage name="priceBuy" class="text-danger" />
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row mb-3 form-group required">
                             <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Giá bán gốc
@@ -150,7 +150,7 @@
                                 </span>
                                 <span class="col-8 ms-2">
                                     <Field name="dateStart" v-model="Tour.dateStart" type="date" class="form-control"
-                                        :rules="{ required: true }" />
+                                        :rules="{ required: true, dateAfterToday: true }" />
                                     <ErrorMessage name="dateStart" class="text-danger" />
                                 </span>
                             </div>
@@ -167,7 +167,7 @@
                                 </span>
                                 <span class="col-8 ms-2">
                                     <Field name="dateEnd" v-model="Tour.dateEnd" type="date" class="form-control"
-                                        :rules="{ required: true ,endDateGreaterThanStart: [Tour.dateStart]}" />
+                                        :rules="{ required: true ,dateAfterToday1: true,endDateGreaterThanStart: [Tour.dateStart]}" />
                                     <ErrorMessage name="dateEnd" class="text-danger" />
                                 </span>
                             </div>
@@ -397,8 +397,8 @@ const createTour = () => {
         formData2.append('seat', Tour.value.seat);
         const cleanCost = parseFloat(Tour.value.cost.replace(/[\D\s\._\-]+/g, ''));
         formData2.append('cost', isNaN(cleanCost) ? 0 : cleanCost);
-        const cleanCost1 = parseFloat(Tour.value.priceBuy.replace(/[\D\s\._\-]+/g, ''));
-        formData2.append('priceBuy',isNaN(cleanCost1) ? 0 : cleanCost1);
+        // const cleanCost1 = parseFloat(Tour.value.priceBuy.replace(/[\D\s\._\-]+/g, ''));
+        // formData2.append('priceBuy',isNaN(cleanCost1) ? 0 : cleanCost1);
         formData2.append('discount', Tour.value.discount);
         formData2.append('islocal', Tour.value.isLocal);
         formData2.append('dateEnd', Tour.value.dateEnd);

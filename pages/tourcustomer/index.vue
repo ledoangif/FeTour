@@ -123,7 +123,7 @@
                 </div>
             </form>
             <h3 class="heading text-capitalize text-center mt-5">
-                Tour hot
+                Tour 
                 <i class="fa-solid fa-fire text-danger" style="font-size: 1em"></i>
             </h3>
             <p class="text mt-2 mb-5 text-center">

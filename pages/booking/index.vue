@@ -225,7 +225,7 @@
                                         </svg>
                                     </NuxtLink>
                                     <NuxtLink
-                                        
+                                        v-if="Booking.statusBill === Tour_constants.Pending"
                                         class="link link-danger text-decoration-none mx-1"
                                         style="cursor: pointer"
                                         @click="deleteBooking(Booking.id)"

@@ -223,6 +223,7 @@ const countBookingCanelorNot = async () => {
 
     const responseSuccess = await api.get(`/Booking/CountBookingCancelorNotCancel?status=${Tour_constants.Paid}`);
     const Success = responseSuccess.data.responseData;
+    
     const responsecustomercancel = await api.get(`/Booking/CountBookingCancelorNotCancel?status=${Tour_constants.Customercancel}`);
     const Customercancel = responsecustomercancel.data.responseData;
     // Trả về dữ liệu

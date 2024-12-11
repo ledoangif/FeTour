@@ -273,7 +273,7 @@
     <section class="packages py-5" id="tourByCountry">
         <div class="container py-lg-4 py-sm-3">
             <h3 class="heading text-capitalize text-center">
-                Tour hot
+                Tour
                 <i class="fa-solid fa-fire text-danger" style="font-size: 1em"></i>
             </h3>
             <p class="text mt-2 mb-5 text-center">

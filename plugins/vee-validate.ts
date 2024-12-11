@@ -101,8 +101,34 @@ export default defineNuxtPlugin(() => {
         }
         return true;
     });
+    defineRule('dateAfterToday', (value: string) => {
+        if (!value) {
+            return 'Thông tin này không được để trống!';
+        }
 
+        const today = new Date();
+        const inputDate = new Date(value);
 
+        if (inputDate <= today) {
+            return 'Ngày bắt đầu phải lớn hơn ngày hiện tại.';
+        }
+
+        return true;
+    });
+    defineRule('dateAfterToday1', (value: string) => {
+        if (!value) {
+            return 'Thông tin này không được để trống!';
+        }
+
+        const today = new Date();
+        const inputDate = new Date(value);
+
+        if (inputDate <= today) {
+            return 'Ngày kết thúc phải lớn hơn ngày hiện tại.';
+        }
+
+        return true;
+    });
 
 
 

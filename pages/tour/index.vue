@@ -229,11 +229,11 @@
                                         {{ Tour.discount || 0 }} %
                                         <br />
                                         
-                                        Giá mua:
+                                        <!-- Giá mua:
                                         <span>
                                             {{ formatCurrency(Tour.priceBuy) }}
                                         </span>
-                                        <br/>
+                                        <br/> -->
                                         Giá bán:
                                         <span>{{
                                            formatCurrency(Tour.priceSale)

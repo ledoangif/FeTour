@@ -12,11 +12,10 @@
                 <span v-else>
                     <slot name="header">
                         <div>
-                            <!-- <span>Cập nhật Booking du lịch</span> <button type="button" class="btn btn-success ms-5" @click="showCustmomer">Cập nhật khách hàng</button> -->
+                            
                             <span>Cập nhật Booking du lịch</span>
                         </div>
                     </slot>
-                    
                 </span>
             </template>
             <template #body>
@@ -187,7 +186,8 @@
                                     disabled
                                 />
                             </div> -->
-                            <label
+                            
+                            <!-- <label
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
                             >
@@ -201,61 +201,52 @@
                                     disabled
                                     style="height: 38px; padding: 0.375rem 0.75rem;"
                                 />
-                            </div>
-                        </div>
-                        <div class="row form-group required">
-                            <!-- <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Mã khách hàng
-                            </label>
-                            <div class="col-sm-8">
-                                <Field
-                                    id="customerId"
-                                    name="customerId"
-                                    v-model="Booking.customerId"
-                                    class="form-control"
-                                    type="text"
-                                    disabled
-                                />
-                                <br />
                             </div> -->
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Tên khách hàng
+                        </div>
+                        <div class="row mb-3 form-group required">
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
+                                Tên tour
                             </label>
                             <div class="col-sm-8">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    :value="customerName"
-                                    disabled
-                                    style="height: 38px; padding: 0.375rem 0.75rem;"
-                                />
-                                <br/>
+                                <Field as="select" id="tour" name="tour" v-model="Booking.tourId" class="form-control" :disabled="Booking.statusBill !== 'Chờ xử lý'">
+                                    <option v-for="item in Tour" :key="item.id" class="text-dark" :value="item.id">
+                                        {{ item.nameTour }}
+                                    </option>
+                                </Field>
+                                <ErrorMessage name="tour" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                                <label
+                                    for="source-name"
+                                    class="col-sm-4 col-form-label control-label text-end"
+                                >
+                                    Tên khách hàng
+                                </label>
+                                <div class="col-sm-8">
+                                    <Field
+                                        name="nameCustomer"
+                                        v-model="Booking.nameCustomer"
+                                        type="text"
+                                        class="form-control"
+                                        :disabled="Booking.statusBill !== 'Chờ xử lý'"
+                                        :rules="{required:true,onlyCharacters :true}"
+                                    />
+                                    <ErrorMessage name="nameCustomer" class="text-danger" />
+                                </div>
+                        </div>
+                        <div class="row mb-3 form-group required">
+                            <label for="adult" class="col-sm-4 col-form-label control-label text-end">
                                 Vé người lớn
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="adult"
-                                    v-model="Booking.adult"
-                                    type="text"
-                                    class="form-control"
-                                    disabled
-                                />
+                                    <button type="button" class="btn btn-outline-secondary" @click="decrementAdult" :disabled="Booking.adult <= 1 || Booking.statusBill !== 'Chờ xử lý'" >-</button>
+                                    <span class="mx-3">{{ Booking.adult }}</span>
+                                    <button type="button" class="btn btn-outline-secondary" @click="incrementAdult" :disabled="Booking.statusBill !== 'Chờ xử lý'">+</button>
                             </div>
+                            
                         </div>
-                        <div class="row mb-3 form-group required">
+                        <!-- <div class="row mb-3 form-group required">
                             <label
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
@@ -268,6 +259,22 @@
                                     v-model="Booking.totalBill"
                                     class="form-control"
                                     type="text"
+                                    
+                                />
+                            </div>
+                        </div> -->
+                        <div class="row mb-3 form-group required">
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
+                                Tổng tiền
+                            </label>
+                            <div class="col-sm-8">
+                                <Field
+                                    id="totalBill"
+                                    name="totalBill"
+                                    v-model="Booking.totalBill"
+                                    class="form-control"
+                                    type="text"
+                                    :value="formatCurrency(totalBill)"
                                     disabled
                                 />
                             </div>
@@ -291,42 +298,19 @@
                         </div>
                     </div>
                     <div class="row col-lg-6">
-                        <!-- <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
-                                Phương thức thanh toán
-                            </label>
-                            <div class="col-sm-8">
-                                <Field
-                                    name="paymentBy"
-                                    v-model="Booking.paymentBy"
-                                    type="text"
-                                    class="form-control"
-                                    disabled
-                                />
-                            </div>
-                        </div> -->
-
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="child" class="col-sm-4 col-form-label control-label text-end">
                                 Vé trẻ em
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="child"
-                                    v-model="Booking.child"
-                                    type="text"
-                                    class="form-control"
-                                    disabled
-                                />
+                                <div class="col-sm-8">
+                                    <button type="button" class="btn btn-outline-secondary" @click="decrementChild" :disabled="Booking.child <= 0||Booking.statusBill !== 'Chờ xử lý'">-</button>
+                                    <span class="mx-3">{{ Booking.child }}</span>
+                                    <button type="button" class="btn btn-outline-secondary" @click="incrementChild" :disabled="Booking.statusBill !== 'Chờ xử lý'" >+</button>
+                                </div>
                             </div>
                         </div>
-
+                        
                         <div class="row mb-3 form-group required">
                             <label
                                 for="source-name"
@@ -348,6 +332,7 @@
                                         :value="item.value"
                                     >
                                         {{ item.value }}
+                                        
                                     </option>
                                 </Field>
                             </div>
@@ -428,12 +413,14 @@ const statusBill = [
     { id: 4, value: 'Chờ xử lý' },
     { id: 5, value:'Khách hàng hủy'},
 ];
+
 const getInfor =  async() =>
 {
     const res = await api.get(`/Customer`, null);
     Customer.value = res.data.responseData;
     const resTour = await api.get(`/Tour/GetAllTour`, null);
     Tour.value = resTour.data.responseData;
+    console.log(resTour)
 }
 onMounted(async () => {
     try {
@@ -442,23 +429,69 @@ onMounted(async () => {
         console.error('Error fetching initial data:', error);
     }
 });
-const customerName = computed(() => {
-    const customer = Customer.value.find(item => item.id === Booking.value.customerId);
-    return customer ? customer.nameCustomer : "Không tìm thấy";
+
+
+// Phương thức tăng số lượng vé người lớn
+const incrementAdult = () => {
+    Booking.value.adult += 1;  // Tăng số lượng vé người lớn lên 1
+    updateTotalBill();  // Cập nhật tổng tiền sau khi thay đổi
+};
+
+// Phương thức giảm số lượng vé người lớn
+const decrementAdult = () => {
+    if (Booking.value.adult > 0) {
+        Booking.value.adult -= 1;  // Giảm số lượng vé người lớn xuống 1
+        updateTotalBill();  // Cập nhật tổng tiền sau khi thay đổi
+    }
+};
+
+// Phương thức tăng số lượng vé trẻ em
+const incrementChild = () => {
+    Booking.value.child += 1;  // Tăng số lượng vé trẻ em lên 1
+    updateTotalBill();  // Cập nhật tổng tiền sau khi thay đổi
+};
+
+// Phương thức giảm số lượng vé trẻ em
+const decrementChild = () => {
+    if (Booking.value.child > 0) {
+        Booking.value.child -= 1;  // Giảm số lượng vé trẻ em xuống 1
+        updateTotalBill();  // Cập nhật tổng tiền sau khi thay đổi
+        updatedatcoc();
+    }
+};
+
+// Tính toán tổng tiền dựa trên số lượng vé và giá bán
+const totalBill = computed(() => {
+    const selectedTour = Tour.value.find(tour => tour.id === Booking.value.tourId);
+    if (!selectedTour) return 0;
+    const adultTotal = Booking.value.adult * selectedTour.priceSale;
+    const childTotal = Booking.value.child * selectedTour.priceSale * 0.9;
+    return adultTotal + childTotal;
 });
-const tourName = computed(() => {
-    const tour = Tour.value.find(item => item.id === Booking.value.tourId);
-    return tour ? tour.nameTour : "Không tìm thấy";
+const paymented = computed(() => {
+    return 100000 * (Booking.value.adult + Booking.value.child);
 });
+const updateTotalBill = () => {
+    Booking.value.totalBill = totalBill.value;
+    Booking.value.paymented = paymented.value;  
+};
+
+// Phương thức định dạng tiền tệ
+const formatCurrency = (value) => {
+    return value.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
+};
 
 const defaultBooking = {
     tourId: '',
     customerId: '',
-    totalBill: '',
+    totalBill: 0,
     paymented: '',
     paymentBy: '',
-    child: '',
-    adult: '',
+    child: 0,
+    adult: 0,
     statusBill: 'Lưu tạm',
     customerInTours: '',
     id: '',
@@ -491,7 +524,19 @@ const updateBooking = async () => {
     alert('Số tiền thanh toán không được vượt quá tổng tiền.');
     //Booking.value.paymented = Booking.value.totalBill;  // Đặt lại giá trị của paymented về totalBill
     return;
-    } 
+    }
+    const selectedTour = Tour.value.find(tour => tour.id === Booking.value.tourId);
+        // Tính tổng số vé đã đặt (người lớn + trẻ em)
+        const totalTickets = Booking.value.adult + Booking.value.child;
+
+        // Kiểm tra xem số vé đã đặt có vượt quá số vé còn lại không
+        if (totalTickets > selectedTour.slot) {
+            // Hiển thị thông báo lỗi nếu số vé đặt vượt quá số lượng vé còn lại
+            alert('Số lượng vé bạn đặt vượt quá số lượng vé còn lại trong tour!');
+            return; // Dừng lại không thực hiện các bước tiếp theo nếu không hợp lệ
+        }
+    
+
     const data = {
         tourId: Booking.value.tourId,
         customerId: Booking.value.customerId,
@@ -504,26 +549,22 @@ const updateBooking = async () => {
         child: Booking.value.child,
         statusBill: Booking.value.statusBill,
         customerInTours: Booking.value.customerInTours,
-        createDate: props.editBooking.createDate,
         updateDate: new Date(),
         id: props.editBooking.id,
     };
-    // const dataCustomer = {
-    //     nameCustomer: Booking.value.nameCustomer,
-    //     phoneNumber: Booking.value.phoneNumber,
-    //     identityCard: Booking.value.identityCard,
-    //     address: Booking.value.address,
-    //     email: Booking.value.email,
-    //     accountBank:Booking.value.accountBank,
-    //     gender: Booking.value.gender,
-    //     bankName: Booking.value.bankName,
-    //     id : props.editBooking.customerId,
-    // }
+    const dataCustomer = {
+        nameCustomer: Booking.value.nameCustomer,
+        phoneNumber: Booking.value.phoneNumber,
+        identityCard: Booking.value.identityCard,
+        address: Booking.value.address,
+        email: Booking.value.email,
+        accountBank:Booking.value.accountBank,
+        gender: Booking.value.gender,
+        bankName: Booking.value.bankName,
+        id : props.editBooking.customerId,
+    }
     try {
-        // if(showKH.value == true)
-        // {
-        //    await api.putAPI(`/Customer/${props.editBooking.customerId}`,dataCustomer);
-        // }
+        await api.putAPI(`/Customer/${props.editBooking.customerId}`,dataCustomer);
         const booking=await api.putAPI(`/Booking/${props.editBooking.id}`, data);
         if (booking.status === 200) {
             if (booking.data && booking.data.message) {
@@ -535,7 +576,7 @@ const updateBooking = async () => {
         const formData = new FormData();
         formData.append('to', Booking.value.email);
         formData.append('status', data.statusBill);
-        const mail=await api.postAPI(`/Booking/TestSendMailByStatus?id=${props.editBooking.id}`,formData,);
+        const mail=await api.postAPI(`/Booking/TestSendMailByStatus?id=${props.editBooking.id}`,formData);
         if (mail.status === 200) {
             if (mail.data && mail.data.message) {
                 // Hiển thị thông báo thành công
@@ -565,6 +606,7 @@ const handleSubmit = () => {
         createBooking();
     }
 };
+
 const isDisabled=(status) => {
             return status === Tour_constants.Cancel ||
                    status === Tour_constants.Paid ||
@@ -579,6 +621,10 @@ watch(
     (newVal) => {
         if (newVal) {
             Booking.value = { ...newVal };
+            const selectedTour = Tour.value.find(tour => tour.id === newVal.tourId);
+            if (!selectedTour) {
+                Booking.value.tourId = ''; // Nếu không tìm thấy tour, đặt lại giá trị
+            }
             if (form.value) {
                 form.value.resetForm({
                     values: { ...Booking.value }, // Cập nhật giá trị mới cho form
@@ -589,6 +635,7 @@ watch(
     },
     { immediate: true },
 );
+
 watch(
     () => Booking.value.statusBill,
     (newStatus) => {
@@ -597,9 +644,12 @@ watch(
         } else if (newStatus === 'Đã đặt cọc' || newStatus === 'Hủy') {  // Khi chọn "Đặt cọc" hoặc "Hủy"
             Booking.value.paymented = 100000 * (Booking.value.adult + Booking.value.child);
          } else if (newStatus === 'Chờ xử lý') {  // Khi chọn "Chờ xử lý"
-             Booking.value.paymented = 0;  // Gán paymented = 0
+             Booking.value.paymented = 100000 * (Booking.value.adult + Booking.value.child);  // Gán paymented = 0
         }
     },
     { immediate: true }
 );
+
+
+
 </script>

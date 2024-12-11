@@ -291,7 +291,7 @@
                                 ></i>
                             </span>
                             <div class="ms-4 pb-3" v-if="showChildTicket">
-                                <!-- <span> Trẻ em dưới 2 tuổi: 30% giá tour người lớn </span> -->
+                                <span> Trẻ em 2-12 tuổi: 90% giá tour người lớn </span>
                             </div>
                         </div>
                     </div>

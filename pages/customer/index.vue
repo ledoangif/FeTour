@@ -32,24 +32,6 @@
                                 </svg>
                                 Tìm kiếm
                             </button>
-                            <!-- <button
-                                class="btn btn-sm btn-outline-primary"
-                                type="reset"
-                                @click="resetSearchForm()"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="1.5em"
-                                    height="1.5em"
-                                    viewBox="0 0 256 256"
-                                >
-                                    <path
-                                        fill="currentColor"
-                                        d="M225 80.4L183.6 39a24 24 0 0 0-33.94 0L31 157.66a24 24 0 0 0 0 33.94l30.06 30.06a8 8 0 0 0 5.68 2.34H216a8 8 0 0 0 0-16h-84.7l93.7-93.66a24 24 0 0 0 0-33.94M213.67 103L160 156.69L107.31 104L161 50.34a8 8 0 0 1 11.32 0l41.38 41.38a8 8 0 0 1 0 11.31Z"
-                                    />
-                                </svg>
-                                Xóa Form
-                            </button> -->
                         </span>
                     </div>
                 </form>
@@ -61,23 +43,6 @@
                         :editCustomer="editCustomerData"
                         @Customer-saved="getCustomers"
                     />
-                    
-
-                    <!-- <div class="reload">
-                        <a class="text-info" href="#" @click="getCustomers()">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 512 512"
-                            >
-                                <path
-                                    fill="currentColor"
-                                    d="M256 48C141.31 48 48 141.31 48 256s93.31 208 208 208s208-93.31 208-208S370.69 48 256 48m120 190.77h-89l36.88-36.88l-5.6-6.51a87.38 87.38 0 1 0-62.94 148a87.55 87.55 0 0 0 82.42-58.25l5.37-15.13l30.17 10.67l-5.3 15.13a119.4 119.4 0 1 1-112.62-159.18a118.34 118.34 0 0 1 86.36 36.95l.56.62l4.31 5L376 149.81Z"
-                                />
-                            </svg>
-                        </a>
-                    </div> -->
                 </div>
                 <table
                     class="table text-center table-hover table-success table-striped-columns"
@@ -121,6 +86,7 @@
                                         /></svg></a>
                                 <br />
                                 <span> {{ Customer.email }}</span>
+                                
                             </td>
 
                             <td class="p-4">
@@ -189,21 +155,6 @@
                     @Customer-deleted="getCustomers"
                     @hide-modal="getCustomers"
                 />
-                <!-- <div class="d-flex justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <span class="me-5">Tổng số: {{ totalCount }} Khách hàng</span>
-                        <span>
-                            <Pagination
-                                :current-page="pageNumber"
-                                :total-pages="totalPage"
-                                :next-page="nextPage"
-                                :previous-page="previousPage"
-                                :set-page="setPage"
-                            />
-                        </span>
-                    </div>
-                    <div></div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -214,14 +165,12 @@ import DeleteCustomerModal from '~/components/form/DeleteCustomerModal.vue';
 import Api from '~/service/Base/api.ts';
 const api = new Api();
 const Customers = ref([]);
+const Bookings = ref([]);
 const selectedCustomerId = ref(null);
 const editCustomerData = ref({});
 const isEditMode = ref(false);
 const searchString = ref('');
-const pageNumber = ref(1);
-const totalPage = ref(0);
-const totalCount = ref(0);
-const pageSize = ref(10);
+
 /**
  * auth
  */
@@ -229,21 +178,6 @@ const pageSize = ref(10);
     middleware: ['auth','admin'],
 });
 
-/**
- * get all Customers
- */
-// const getCustomers = async () => {
-//     try {
-//         var response = await api.get(
-//             `/Customer/GetAllPagination?PageSize=${pageSize.value}&PageNumber=${pageNumber.value}`,
-//         );
-//         Customers.value = response.data.responseData.data;
-//         totalCount.value = response.data.responseData.pagination.totalCount;
-//         totalPage.value = response.data.responseData.pagination.totalPage;
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
 const getCustomers = async () => {
     try {
         var response = await api.get(
@@ -255,19 +189,41 @@ const getCustomers = async () => {
         console.log(err);
     }
 };
-
-/**
- * delete Customer
- * @param {*} id
- */
-const deleteCustomer = async (id) => {
+const getBookings = async () => {
     try {
-        selectedCustomerId.value = id;
+        var response = await api.get(
+            `/Booking/GetBookingall`,null
+        );
+        Bookings.value = response.data.responseData;
     } catch (err) {
         console.log(err);
     }
 };
-
+/**
+ * delete Customer
+ * @param {*} id
+ */
+// const deleteCustomer = async (id) => {
+//     try {
+//         selectedCustomerId.value = id;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
+const deleteCustomer = async (id) => {
+    try {
+        
+        if (Bookings.CustomerId != null) {
+            console.log("Không thể xóa khách hàng vì trùng với Booking.");
+            return;  // Không thực hiện mở modal hoặc xóa khách hàng
+        }
+        console.log("abc");
+        // Nếu không có idCustomer, thực hiện dòng lệnh
+        //selectedCustomerId.value = id;
+    } catch (err) {
+        console.log(err);
+    }
+};
 /**
  * edit Customer
  * @param {*} Customer
@@ -291,21 +247,6 @@ const CustomerEdit = async (Customer) => {
     }
 };
 
-/**
- * reset form search
- */
-const resetSearchForm = async () => {
-    try {
-        searchString.value = '';
-        getCustomers();
-    } catch (err) {
-        console.log(err);
-    }
-};
-
-/**
- * search
- */
 const search = async () => {
     try {
         if (!searchString.value) {
@@ -320,26 +261,9 @@ const search = async () => {
     }
 };
 
-/**
- * call
- */
 onMounted (async () => {
     await getCustomers();
+    await getBookings();
 })
-/**
- * Pagination
- */
-const nextPage = () => {
-    pageNumber.value++;
-    getCustomers();
-};
-const previousPage = () => {
-    pageNumber.value--;
-    getCustomers();
-};
-const setPage = (number) => {
-    pageNumber.value = number;
-    getCustomers();
-};
 
 </script>
